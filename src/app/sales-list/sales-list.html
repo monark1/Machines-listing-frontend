@@ -1,0 +1,70 @@
+<div class="container mt-4">
+
+  <h3 class="mb-3">Sales</h3>
+
+  <input
+    type="text"
+    class="form-control mb-3"
+    placeholder="Search by region or dealer..."
+    [value]="searchTerm()"
+    (input)="onSearchChange($any($event.target).value)"
+  />
+
+  @if (salesService.isLoading()) {
+    <p class="text-muted">Loading sales...</p>
+  } @else {
+
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th style="cursor:pointer" (click)="toggleSort('region')">
+            Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          </th>
+          <th>Qty Sold</th>
+          <th style="cursor:pointer" (click)="toggleSort('revenue')">
+            Revenue @if (sortField() === 'revenue') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          </th>
+          <th style="cursor:pointer" (click)="toggleSort('saleDate')">
+            Sale Date @if (sortField() === 'saleDate') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          </th>
+          <th style="cursor:pointer" (click)="toggleSort('dealerName')">
+            Dealer @if (sortField() === 'dealerName') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sale of pagedSales(); track sale.id) {
+          <tr>
+            <td>{{ getMachineName(sale.machineId) }}</td>
+            <td>{{ sale.region }}</td>
+            <td>{{ sale.quantitySold }}</td>
+            <td>{{ sale.revenue | currency }}</td>
+            <td>{{ sale.saleDate | date }}</td>
+            <td>{{ sale.dealerName }}</td>
+          </tr>
+        }
+        @empty {
+          <tr><td colspan="6" class="text-center text-muted">No sales records found.</td></tr>
+        }
+      </tbody>
+    </table>
+
+    <nav class="d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button class="page-link" (click)="goToPage(currentPage() - 1)">Previous</button>
+        </li>
+        @for (page of [].constructor(totalPages()); track $index) {
+          <li class="page-item" [class.active]="currentPage() === $index + 1">
+            <button class="page-link" (click)="goToPage($index + 1)">{{ $index + 1 }}</button>
+          </li>
+        }
+        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+          <button class="page-link" (click)="goToPage(currentPage() + 1)">Next</button>
+        </li>
+      </ul>
+    </nav>
+
+  }
+</div>

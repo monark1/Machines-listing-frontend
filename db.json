@@ -1,0 +1,205 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "fullName": "Admin",
+      "email": "amar@wh.com",
+      "department": "Engineering",
+      "dateJoined": "2024-01-15",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "username": "stake1",
+      "password": "stake123",
+      "role": "stakeholder",
+      "fullName": "Rahul Sharma",
+      "email": "rahul@wh.com",
+      "department": "Sales",
+      "dateJoined": "2024-02-10",
+      "status": "active"
+    },
+    {
+      "username": "monark",
+      "password": "123456",
+      "role": "employee",
+      "fullName": "Monark Bhardwaj",
+      "email": "Monarkbhardwaj2003@gmail.com",
+      "department": "IT",
+      "dateJoined": "2026-08-16T19:27:07.133Z",
+      "status": "active",
+      "id": "PfqskkinzKs"
+    },
+    {
+      "username": "rohit",
+      "password": "123456",
+      "role": "employee",
+      "fullName": "Rohit",
+      "email": "world@gmail.com",
+      "department": "IT",
+      "dateJoined": "2026-08-17T03:57:57.040Z",
+      "status": "active",
+      "id": "KoIn9DsBcDo"
+    }
+  ],
+  "machines": [
+    {
+      "name": "AlphaFlex",
+      "category": "Flexo Press",
+      "launchYear": 2020,
+      "status": "active",
+      "unitPrice": 50000000,
+      "specs": {
+        "width": 1200,
+        "speed": 400,
+        "printColors": 8
+      },
+      "id": "1"
+    },
+    {
+      "name": "VistaFlex",
+      "category": "Flexo Press",
+      "launchYear": 2005,
+      "status": "discontinued",
+      "unitPrice": 200000000,
+      "specs": {
+        "width": 40,
+        "speed": 450,
+        "printColors": 5
+      },
+      "id": "2"
+    },
+    {
+      "name": "Novoflex",
+      "category": "Printing",
+      "launchYear": 2000,
+      "status": "active",
+      "unitPrice": 30000000,
+      "specs": {
+        "width": 200,
+        "speed": 450,
+        "printColors": 2
+      },
+      "id": "3"
+    },
+    {
+      "name": "Miraflex",
+      "category": "printing",
+      "launchYear": 2001,
+      "status": "active",
+      "unitPrice": 39999979,
+      "specs": {
+        "width": 1000,
+        "speed": 600,
+        "printColors": 8
+      },
+      "id": "4"
+    },
+    {
+      "name": "HELIOSTAR II A",
+      "category": "Rotogravure Press",
+      "launchYear": 2004,
+      "status": "active",
+      "unitPrice": 3000000,
+      "specs": {
+        "width": 1300,
+        "speed": 500,
+        "printColors": 14
+      },
+      "id": "5"
+    },
+    {
+      "name": "FLEXA II",
+      "category": "Stack-Type Flexo Press",
+      "launchYear": 2005,
+      "status": "active",
+      "unitPrice": 2000000,
+      "specs": {
+        "width": 1570,
+        "speed": 350,
+        "printColors": 8
+      },
+      "id": "6"
+    },
+    {
+      "name": "VAREX II",
+      "category": "Extrusion",
+      "launchYear": 1999,
+      "status": "active",
+      "unitPrice": 4000000,
+      "specs": {
+        "width": 1300,
+        "speed": 500,
+        "printColors": 9
+      },
+      "id": "7"
+    },
+    {
+      "name": "OPTIMEX II",
+      "category": "Extrusion",
+      "launchYear": 2000,
+      "status": "active",
+      "unitPrice": 3000000,
+      "specs": {
+        "width": 2600,
+        "speed": 600,
+        "printColors": 5
+      },
+      "id": "8"
+    },
+    {
+      "name": "FILMEX II Stretch",
+      "category": "Extrusion",
+      "launchYear": 1998,
+      "status": "active",
+      "unitPrice": 300000,
+      "specs": {
+        "width": 5,
+        "speed": 800,
+        "printColors": 7
+      },
+      "id": "9"
+    },
+    {
+      "name": "AM 8715 CL",
+      "category": "Converting",
+      "launchYear": 2004,
+      "status": "active",
+      "unitPrice": 300000,
+      "specs": {
+        "width": 60,
+        "speed": 500,
+        "printColors": 6
+      },
+      "id": "10"
+    },
+    {
+      "name": "AM 8715 DP",
+      "category": "Converting",
+      "launchYear": 2004,
+      "status": "active",
+      "unitPrice": 400000,
+      "specs": {
+        "width": 75,
+        "speed": 500,
+        "printColors": 4
+      },
+      "id": 11
+    }
+  ],
+  "salesRecords": [
+    {
+      "id": "1",
+      "machineId": 1,
+      "region": "North",
+      "quantitySold": 3,
+      "revenue": 1500000,
+      "saleDate": "2025-06-01",
+      "dealerName": "PackTech Distributors"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

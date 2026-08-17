@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  
+  
+  <div class="navbar-nav">
+    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a class="nav-link" routerLink="/machines" routerLinkActive="active">Machines</a>
+
+    @if (role() === 'stakeholder' || role() === 'admin') {
+      <a class="nav-link" routerLink="/sales" routerLinkActive="active">Sales</a>
+    }
+
+    @if (role() === 'admin') {
+      <a class="nav-link" routerLink="/employees" routerLinkActive="active">Employees</a>
+    }
+  </div>
+
+  <div class="ms-auto d-flex align-items-center">
+    <span class="text-light me-3">{{ authService.getUserName() }}</span>
+    <button class="btn btn-sm btn-outline-light" (click)="authService.logout()">Logout</button>
+  </div>
+</nav>

@@ -1,0 +1,10 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080">
+  @for (n of notificationService.notifications(); track n.id) {
+    <div class="toast show mb-2" [class.text-bg-success]="n.type === 'success'" [class.text-bg-danger]="n.type === 'error'">
+      <div class="d-flex">
+        <div class="toast-body">{{ n.message }}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="notificationService.dismiss(n.id)"></button>
+      </div>
+    </div>
+  }
+</div>

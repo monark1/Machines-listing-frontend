@@ -2,14 +2,14 @@ import { Injectable, signal, inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { UserService } from './user.service'; // wherever your user lookup lives
+import { UserService } from './user.service'; 
 import { User } from '../models/user.model';
 import { JwtPayload } from '../models/jwt-payload.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly ACCESS_TOKEN_KEY = 'access_token';   // confirm this is the key you actually used
-  private readonly REFRESH_TOKEN_KEY = 'refresh_token'; // confirm this too
+  private readonly ACCESS_TOKEN_KEY = 'access_token';   
+  private readonly REFRESH_TOKEN_KEY = 'refresh_token'; 
 
   private sessionTimer: ReturnType<typeof setTimeout> | null = null;
   reAuthNeeded = signal<boolean>(false);
@@ -27,6 +27,7 @@ export class AuthService {
       map(users => {
         const match = users.find(u => u.password === password);
         if (!match) return false;
+        if (match.status === 'inactive') return false;
         this.issueTokens(match);
         return true;
       }),
@@ -60,7 +61,7 @@ export class AuthService {
       role: user.role,
       name: user.fullName,
       iat: now,
-      exp: now + 15 * 60
+      exp: now + 20 * 60
     };
 
     const refreshPayload: JwtPayload = {
