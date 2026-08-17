@@ -22,12 +22,12 @@ export class RegisterComponent {
   isSubmitting = signal(false);
 
   registerForm = this.fb.group({
-    fullName: ['', [Validators.required, Validators.minLength(2)]],
+    fullName: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z ]+$')]],
     email: ['', [Validators.required, Validators.email]],
-    username: ['', [Validators.required, Validators.minLength(4)], [usernameTakenValidator()]],
+    username: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$')], [usernameTakenValidator()]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', Validators.required],
-    department: ['', Validators.required]
+    department: ['', [Validators.required, Validators.pattern('^[^0-9]*$')]]
   }, { validators: this.passwordsMatchValidator });
 
   private passwordsMatchValidator(group: any) {

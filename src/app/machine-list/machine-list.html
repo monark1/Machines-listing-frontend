@@ -3,84 +3,86 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3>Machines</h3>
     @if (isAdmin()) {
-      <a routerLink="/machines/add" class="btn btn-primary">+ Add Machine</a>
+    <div>
+      <a routerLink="/machines/add" class="btn btn-primary me-2">+ Add Machine</a>
+      <button class="btn btn-outline-secondary me-2" (click)="exportToCsv()">Export to CSV</button>
+      <button class="btn btn-outline-secondary" (click)="exportToPdf()">Export to PDF</button>
+    </div>
     }
   </div>
 
-  <input
-    type="text"
-    class="form-control mb-3"
-    placeholder="Search by name..."
-    [value]="searchTerm()"
-    (input)="onSearchChange($any($event.target).value)"
-  />
+  <input type="text" class="form-control mb-3" placeholder="Search by name..." [value]="searchTerm()"
+    (input)="onSearchChange($any($event.target).value)" />
 
   @if (machineService.isLoading()) {
-    <p class="text-muted">Loading machines...</p>
+  <p class="text-muted">Loading machines...</p>
   } @else {
 
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th style="cursor:pointer" (click)="toggleSort('name')">
-            Name @if (sortField() === 'name') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th style="cursor:pointer" (click)="toggleSort('category')">
-            Category @if (sortField() === 'category') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th style="cursor:pointer" (click)="toggleSort('launchYear')">
-            Launch Year @if (sortField() === 'launchYear') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th>Status</th>
-          <th style="cursor:pointer" (click)="toggleSort('unitPrice')">
-            Unit Price @if (sortField() === 'unitPrice') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          @if (isAdmin()) {
-            <th>Actions</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (machine of pagedMachines(); track machine.id) {
-          <tr>
-            <td>{{ machine.name }}</td>
-            <td>{{ machine.category }}</td>
-            <td>{{ machine.launchYear }}</td>
-            <td>
-              <span class="badge" [class.bg-success]="machine.status === 'active'" [class.bg-secondary]="machine.status === 'discontinued'">
-                {{ machine.status }}
-              </span>
-            </td>
-            <td>{{ machine.unitPrice | currency }}</td>
-            @if (isAdmin()) {
-              <td>
-                <a [routerLink]="['/machines', machine.id, 'edit']" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                <button class="btn btn-sm btn-outline-danger" (click)="onDelete(machine.id)">Delete</button>
-              </td>
-            }
-          </tr>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th style="cursor:pointer" (click)="toggleSort('name')">
+          Name @if (sortField() === 'name') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th style="cursor:pointer" (click)="toggleSort('category')">
+          Category @if (sortField() === 'category') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th style="cursor:pointer" (click)="toggleSort('launchYear')">
+          Launch Year @if (sortField() === 'launchYear') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th>Status</th>
+        <th style="cursor:pointer" (click)="toggleSort('unitPrice')">
+          Unit Price @if (sortField() === 'unitPrice') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        @if (isAdmin()) {
+        <th>Actions</th>
         }
-        @empty {
-          <tr><td colspan="6" class="text-center text-muted">No machines found.</td></tr>
+      </tr>
+    </thead>
+    <tbody>
+      @for (machine of pagedMachines(); track machine.id) {
+      <tr>
+        <td>{{ machine.name }}</td>
+        <td>{{ machine.category }}</td>
+        <td>{{ machine.launchYear }}</td>
+        <td>
+          <span class="badge" [class.bg-success]="machine.status === 'active'"
+            [class.bg-secondary]="machine.status === 'discontinued'">
+            {{ machine.status }}
+          </span>
+        </td>
+        <td>{{ machine.unitPrice | currency }}</td>
+        @if (isAdmin()) {
+        <td>
+          <a [routerLink]="['/machines', machine.id, 'edit']" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(machine.id)">Delete</button>
+        </td>
         }
-      </tbody>
-    </table>
+      </tr>
+      }
+      @empty {
+      <tr>
+        <td colspan="6" class="text-center text-muted">No machines found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 
-    <nav class="d-flex justify-content-center">
-      <ul class="pagination">
-        <li class="page-item" [class.disabled]="currentPage() === 1">
-          <button class="page-link" (click)="goToPage(currentPage() - 1)">Previous</button>
-        </li>
-        @for (page of [].constructor(totalPages()); track $index) {
-          <li class="page-item" [class.active]="currentPage() === $index + 1">
-            <button class="page-link" (click)="goToPage($index + 1)">{{ $index + 1 }}</button>
-          </li>
-        }
-        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
-          <button class="page-link" (click)="goToPage(currentPage() + 1)">Next</button>
-        </li>
-      </ul>
-    </nav>
+  <nav class="d-flex justify-content-center">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage() === 1">
+        <button class="page-link" (click)="goToPage(currentPage() - 1)">Previous</button>
+      </li>
+      @for (page of [].constructor(totalPages()); track $index) {
+      <li class="page-item" [class.active]="currentPage() === $index + 1">
+        <button class="page-link" (click)="goToPage($index + 1)">{{ $index + 1 }}</button>
+      </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+        <button class="page-link" (click)="goToPage(currentPage() + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
 
   }
 </div>

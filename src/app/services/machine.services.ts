@@ -17,16 +17,10 @@ export class MachineService {
   }
 
   addMachine(machine: MachineDraft): Observable<Machine> {
-  const nextId = this.machines().length
-    ? Math.max(...this.machines().map(m => m.id)) + 1
-    : 1;
-
-  const payload = { ...machine, id: nextId };
-
-  return this.http.post<Machine>(this.API_URL, payload).pipe(
-    tap(created => this.machines.update(list => [...list, created]))
-  );
-}
+    return this.http.post<Machine>(this.API_URL, machine).pipe(
+      tap(created => this.machines.update(list => [...list, created]))
+    );
+  }
 
   updateMachine(id: number, machine: MachineDraft): Observable<Machine> {
     return this.http.put<Machine>(`${this.API_URL}/${id}`, machine).pipe(

@@ -5,6 +5,8 @@ import { RouterLink } from '@angular/router';
 import { MachineService } from '../services/machine.services';
 import { AuthService } from '../services/auth.service';
 import { Machine } from '../models/machine.model';
+import {jsPDF} from 'jspdf';
+import {autoTable} from 'jspdf-autotable';
 
 @Component({
   selector: 'app-machine-list',
@@ -81,4 +83,34 @@ export class MachineListComponent {
     if (!confirm('Delete this machine?')) return;
     this.machineService.deleteMachine(id).subscribe();
   }
+
+  exportToPdf(): void {
+  const doc = new jsPDF();
+  doc.text('Machines Report', 14, 15);
+
+  autoTable(doc, {
+    startY: 20,
+    head: [['Name', 'Category', 'Launch Year', 'Status', 'Unit Price']],
+    body: this.filteredMachines().map(m => [
+      m.name, m.category, m.launchYear, m.status, m.unitPrice
+    ])
+  });
+
+  doc.save('machines-report.pdf');
+}
+
+exportToCsv(): void {
+  const rows = this.filteredMachines();
+  const header = ['Name', 'Category', 'Launch Year', 'Status', 'Unit Price'];
+  const csvRows = rows.map(m => [m.name, m.category, m.launchYear, m.status, m.unitPrice].join(','));
+  const csvContent = [header.join(','), ...csvRows].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'machines-report.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
 }

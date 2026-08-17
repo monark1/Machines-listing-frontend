@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SalesService } from '../services/sales.service';
 import { MachineService } from '../services/machine.services';
+import {jsPDF} from 'jspdf';
+import {autoTable} from 'jspdf-autotable';
 
 @Component({
   selector: 'app-sales-list',
@@ -74,4 +76,37 @@ export class SalesListComponent {
     if (page < 1 || page > this.totalPages()) return;
     this.currentPage.set(page);
   }
+
+  exportToPdf(): void {
+  const doc = new jsPDF();
+  doc.text('Sales Report', 14, 15);
+
+  autoTable(doc, {
+    startY: 20,
+    head: [['Machine', 'Region', 'Qty Sold', 'Revenue', 'Sale Date', 'Dealer']],
+    body: this.filteredSales().map(s => [
+      this.getMachineName(s.machineId), s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName
+    ])
+  });
+
+  doc.save('sales-report.pdf');
+}
+
+exportToCsv(): void {
+  const rows = this.filteredSales();
+  const header = ['Machine', 'Region', 'Qty Sold', 'Revenue', 'Sale Date', 'Dealer'];
+  const csvRows = rows.map(s => [
+    this.getMachineName(s.machineId), s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName
+  ].join(','));
+  const csvContent = [header.join(','), ...csvRows].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'sales-report.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 }

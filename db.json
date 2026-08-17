@@ -43,6 +43,17 @@
       "dateJoined": "2026-08-17T03:57:57.040Z",
       "status": "active",
       "id": "KoIn9DsBcDo"
+    },
+    {
+      "username": "vineet",
+      "password": "123qwe",
+      "role": "employee",
+      "fullName": "Vineet",
+      "email": "vineet@test.com",
+      "department": "IT",
+      "dateJoined": "2026-08-17T07:49:06.085Z",
+      "status": "active",
+      "id": "WyC1_-L"
     }
   ],
   "machines": [
@@ -188,6 +199,32 @@
         "printColors": 4
       },
       "id": 11
+    },
+    {
+      "name": "Jiostar",
+      "category": "Flexopress",
+      "launchYear": 2005,
+      "status": "active",
+      "unitPrice": 500000,
+      "specs": {
+        "width": 400,
+        "speed": 600,
+        "printColors": 9
+      },
+      "id": 12
+    },
+    {
+      "name": "LittleStar 2",
+      "category": "Flexo press",
+      "launchYear": 2004,
+      "status": "active",
+      "unitPrice": 4000000,
+      "specs": {
+        "width": 50,
+        "speed": 700,
+        "printColors": 8
+      },
+      "id": 13
     }
   ],
   "salesRecords": [

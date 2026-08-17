@@ -8,7 +8,7 @@
         <label class="form-label">Full Name</label>
         <input type="text" class="form-control" formControlName="fullName" />
         @if (registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid) {
-          <div class="text-danger small mt-1">Full name is required.</div>
+          <div class="text-danger small mt-1">Full name is required and only Alphabetic chars are allowed</div>
         }
       </div>
 
@@ -28,17 +28,21 @@
         }
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('usernameTaken')) {
           <div class="text-danger small mt-1">This username is already taken.</div>
+          
         }
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('minlength')) {
           <div class="text-danger small mt-1">Username must be at least 4 characters.</div>
         }
+        
+        @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('pattern')) {
+          <div class="text-danger small mt-1">Must contain alphabet</div>}
       </div>
 
       <div class="mb-3">
         <label class="form-label">Department</label>
         <input type="text" class="form-control" formControlName="department" />
         @if (registerForm.get('department')?.touched && registerForm.get('department')?.invalid) {
-          <div class="text-danger small mt-1">Department is required.</div>
+          <div class="text-danger small mt-1">Department is required & must be alphabetic characters.</div>
         }
       </div>
 
