@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
@@ -30,7 +30,7 @@ export class RegisterComponent {
     department: ['', [Validators.required, Validators.pattern('^[^0-9]*$')]]
   }, { validators: this.passwordsMatchValidator });
 
-  private passwordsMatchValidator(group: any) {
+  private passwordsMatchValidator(group: AbstractControl){
     const pass = group.get('password')?.value;
     const confirm = group.get('confirmPassword')?.value;
     return pass === confirm ? null : { passwordMismatch: true };

@@ -12,8 +12,8 @@
     }
   </div>
 
-  <input type="text" class="form-control mb-3" placeholder="Search by name..." [value]="searchTerm()"
-    (input)="onSearchChange($any($event.target).value)" />
+  <input #searchBox type="text" class="form-control mb-3" placeholder="Search by name..."
+       [value]="searchTerm()" (input)="onSearchChange(searchBox.value)" />
 
   @if (machineService.isLoading()) {
   <p class="text-muted">Loading machines...</p>

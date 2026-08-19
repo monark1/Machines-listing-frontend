@@ -1,12 +1,12 @@
 <div class="container mt-4">
   <h3 class="mb-3">Employees</h3>
 
-  <input
+  <input #searchBox
     type="text"
     class="form-control mb-3"
     placeholder="Search by name or email..."
     [value]="searchTerm()"
-    (input)="onSearchChange($any($event.target).value)"
+    (input)="onSearchChange(searchBox.value)"
   />
 
   @if (isLoading()) {

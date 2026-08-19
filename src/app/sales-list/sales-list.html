@@ -7,12 +7,12 @@
       <button class="btn btn-outline-secondary" (click)="exportToPdf()">Export to PDF</button>
     </div>
 </div>
-  <input
+  <input #searchBox
     type="text"
     class="form-control mb-3"
     placeholder="Search by region or dealer..."
     [value]="searchTerm()"
-    (input)="onSearchChange($any($event.target).value)"
+    (input)="onSearchChange(searchBox.value)"
   />
 
   @if (salesService.isLoading()) {
