@@ -35,13 +35,14 @@
 
   </div>
 
-  <div class="mt-4">
-    <a routerLink="/machines" class="btn btn-outline-primary me-2">View Machines</a>
-    @if (role() === 'stakeholder' || role() === 'admin') {
-      <a routerLink="/sales" class="btn btn-outline-primary me-2">View Sales</a>
+  @if (role() === 'stakeholder' || role() === 'admin') {
+      <button class="btn btn-outline-primary" (click)="goToSales()">View Sales</button>
     }
+    <br>
+    <button class="btn btn-outline-primary" (click)="goToMachines()">View Machines</button>
+    <br>
     @if (role() === 'admin') {
-      <a routerLink="/employees" class="btn btn-outline-primary">Manage Employees</a>
+      <button class="btn btn-outline-primary" (click)="goToEmployees()">Manage Employees</button>
     }
-  </div>
+  
 </div>

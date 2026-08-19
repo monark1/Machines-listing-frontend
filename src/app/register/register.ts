@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { User } from '../models/user.model';
@@ -10,7 +10,7 @@ import { usernameTakenValidator } from './validator';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html'
 })
 export class RegisterComponent {
@@ -67,4 +67,7 @@ export class RegisterComponent {
       }
     });
   }
+  goToLogin(): void {
+  this.router.navigate(['/login']);
+}
 }

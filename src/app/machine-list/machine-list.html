@@ -4,7 +4,8 @@
     <h3>Machines</h3>
     @if (isAdmin()) {
     <div>
-      <a routerLink="/machines/add" class="btn btn-primary me-2">+ Add Machine</a>
+      
+      <button class="btn btn-primary" (click)="goToAdd()">+ Add Machine</button>
       <button class="btn btn-outline-secondary me-2" (click)="exportToCsv()">Export to CSV</button>
       <button class="btn btn-outline-secondary" (click)="exportToPdf()">Export to PDF</button>
     </div>
@@ -54,12 +55,13 @@
         <td>{{ machine.unitPrice | currency }}</td>
         @if (isAdmin()) {
         <td>
-          <a [routerLink]="['/machines', machine.id, 'edit']" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+          <button class="btn btn-sm btn-outline-secondary me-2" (click)="goToEdit(machine.id)">Edit</button>
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(machine.id)">Delete</button>
         </td>
         }
       </tr>
       }
+      
       @empty {
       <tr>
         <td colspan="6" class="text-center text-muted">No machines found.</td>

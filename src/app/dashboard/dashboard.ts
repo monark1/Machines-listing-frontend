@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MachineService } from '../services/machine.services';
 import { SalesService } from '../services/sales.service';
@@ -10,7 +10,7 @@ import { User } from '../models/user.model';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './dashboard.html'
 })
 export class DashboardComponent {
@@ -18,6 +18,7 @@ export class DashboardComponent {
   private machineService = inject(MachineService);
   private salesService = inject(SalesService);
   private userService = inject(UserService);
+  private router = inject(Router);
 
   allUsers = signal<User[]>([]);
 
@@ -48,5 +49,14 @@ export class DashboardComponent {
     if (this.role() === 'admin') {
       this.userService.getAllUsers().subscribe(users => this.allUsers.set(users));
     }
+  }
+  goToMachines(): void {
+    this.router.navigate(['/machines']);
+  }
+  goToSales(): void {
+    this.router.navigate(['/sales']);
+  }
+  goToEmployees(): void {
+    this.router.navigate(['/employees']);
   }
 }

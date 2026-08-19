@@ -1,23 +1,24 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { MachineService } from '../services/machine.services';
 import { AuthService } from '../services/auth.service';
 import { Machine } from '../models/machine.model';
 import {jsPDF} from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-machine-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './machine-list.html',
   styleUrl: './machine-list.css'
 })
 export class MachineListComponent {
   machineService = inject(MachineService); 
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   searchTerm = signal('');
   sortField = signal<keyof Machine>('name');
@@ -112,5 +113,13 @@ exportToCsv(): void {
   link.download = 'machines-report.csv';
   link.click();
   URL.revokeObjectURL(url);
+}
+
+goToAdd(): void {
+  this.router.navigate(['/machines/add']);
+}
+
+goToEdit(id: number): void {
+  this.router.navigate(['/machines', id, 'edit']);
 }
 }
