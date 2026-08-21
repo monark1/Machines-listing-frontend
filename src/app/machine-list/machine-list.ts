@@ -42,8 +42,11 @@ export class MachineListComponent {
     return [...result].sort((a, b) => {
       const av = a[field];
       const bv = b[field];
-      if (av < bv) return -1 * dir;
-      if (av > bv) return 1 * dir;
+      const aCompare = typeof av === 'string' ? av.toLowerCase() : av;
+      const bCompare = typeof bv === 'string' ? bv.toLowerCase() : bv;
+
+      if (aCompare < bCompare) return -1 * dir;
+      if (aCompare > bCompare) return 1 * dir;
       return 0;
     });
   });
