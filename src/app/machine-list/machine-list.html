@@ -5,9 +5,9 @@
     @if (isAdmin()) {
     <div>
       
-      <button class="btn btn-primary" (click)="goToAdd()">+ Add Machine</button>
-      <button class="btn btn-outline-secondary me-2" (click)="exportToCsv()">Export to CSV</button>
-      <button class="btn btn-outline-secondary" (click)="exportToPdf()">Export to PDF</button>
+      <button class="btn btn-primary me-2" (click)="goToAdd()">+ Add Machine</button>
+      <button class="btn btn-outline-primary me-2" (click)="exportToCsv()">Export to CSV</button>
+      <button class="btn btn-outline-primary me-2" (click)="exportToPdf()">Export to PDF</button>
     </div>
     }
   </div>
@@ -55,7 +55,7 @@
         <td>{{ machine.unitPrice | currency }}</td>
         @if (isAdmin()) {
         <td>
-          <button class="btn btn-sm btn-outline-secondary me-2" (click)="goToEdit(machine.id)">Edit</button>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="goToEdit(machine.id)">Edit</button>
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(machine.id)">Delete</button>
         </td>
         }

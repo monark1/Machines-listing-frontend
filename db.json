@@ -165,7 +165,7 @@
       "name": "FILMEX II Stretch",
       "category": "Extrusion",
       "launchYear": 1998,
-      "status": "active",
+      "status": "discontinued",
       "unitPrice": 300000,
       "specs": {
         "width": 5,
@@ -225,6 +225,19 @@
         "printColors": 8
       },
       "id": 13
+    },
+    {
+      "name": "Betaflex",
+      "category": "Flexo Printing",
+      "launchYear": 2003,
+      "status": "active",
+      "unitPrice": 4000000,
+      "specs": {
+        "width": 340,
+        "speed": 500,
+        "printColors": 6
+      },
+      "id": 14
     }
   ],
   "salesRecords": [

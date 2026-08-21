@@ -5,6 +5,7 @@ import { SalesService } from '../services/sales.service';
 import { MachineService } from '../services/machine.services';
 import {jsPDF} from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
+import { SalesRecord } from '../models/sales-record.model';
 
 @Component({
   selector: 'app-sales-list',
@@ -81,12 +82,18 @@ export class SalesListComponent {
   const doc = new jsPDF();
   doc.text('Sales Report', 14, 15);
 
+  const columns: { label: string; getValue: (m: SalesRecord) => string | number }[] = [
+      { label: 'Machine-Id', getValue: m => m.id },
+      { label: 'Region', getValue: m => m.region },
+      { label: 'Qty Sold', getValue: m => m.quantitySold },
+      { label: 'Sale Date', getValue: m => m.saleDate },
+      { label: 'Dealer', getValue: m => m.dealerName }
+    ];
+
   autoTable(doc, {
     startY: 20,
-    head: [['Machine', 'Region', 'Qty Sold', 'Revenue', 'Sale Date', 'Dealer']],
-    body: this.filteredSales().map(s => [
-      this.getMachineName(s.machineId), s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName
-    ])
+    head: [columns.map(c => c.label)],
+    body: this.filteredSales().map(m => columns.map(c => c.getValue(m)))
   });
 
   doc.save('sales-report.pdf');

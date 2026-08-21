@@ -89,12 +89,18 @@ export class MachineListComponent {
   const doc = new jsPDF();
   doc.text('Machines Report', 14, 15);
 
+  const columns: { label: string; getValue: (m: Machine) => string | number }[] = [
+    { label: 'Name', getValue: m => m.name },
+    { label: 'Category', getValue: m => m.category },
+    { label: 'Launch Year', getValue: m => m.launchYear },
+    { label: 'Status', getValue: m => m.status },
+    { label: 'Unit Price', getValue: m => m.unitPrice }
+  ];
+
   autoTable(doc, {
     startY: 20,
-    head: [['Name', 'Category', 'Launch Year', 'Status', 'Unit Price']],
-    body: this.filteredMachines().map(m => [
-      m.name, m.category, m.launchYear, m.status, m.unitPrice
-    ])
+    head: [columns.map(c => c.label)],
+    body: this.filteredMachines().map(m => columns.map(c => c.getValue(m)))
   });
 
   doc.save('machines-report.pdf');
