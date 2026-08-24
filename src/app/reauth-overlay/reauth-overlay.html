@@ -1,18 +1,17 @@
 @if (authService.reAuthNeeded()) {
-  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-       style="background: rgba(0,0,0,0.6); z-index: 1050;">
-    <div class="card p-4" style="max-width: 380px; width: 100%;">
-      <h5>{{ authService.getUserName() }}, your session has expired.</h5>
-      <p class="text-muted">Please verify your password to continue.</p>
+  <div class="overlay-backdrop">
+    <div class="overlay-card">
+      <h5 class="overlay-title">{{ authService.getUserName() }}, your session has expired.</h5>
+      <p class="overlay-subtitle">Please verify your password to continue.</p>
 
       <form [formGroup]="passwordForm" (ngSubmit)="onVerify()">
-        <input type="password" class="form-control mb-2" formControlName="password" placeholder="Password" />
+        <input type="password" class="overlay-input" formControlName="password" placeholder="Password" />
         @if (errorMessage()) {
-          <div class="text-danger small mb-2">{{ errorMessage() }}</div>
+          <div class="overlay-error">{{ errorMessage() }}</div>
         }
-        <div class="d-flex gap-2 mt-3">
-          <button type="button" class="btn btn-outline-secondary flex-fill" (click)="onSignOut()">Sign Out</button>
-          <button type="submit" class="btn btn-primary flex-fill" [disabled]="isSubmitting()">
+        <div class="overlay-actions">
+          <button type="button" class="btn-secondary" (click)="onSignOut()">Sign Out</button>
+          <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
             {{ isSubmitting() ? 'Verifying...' : 'Verify' }}
           </button>
         </div>

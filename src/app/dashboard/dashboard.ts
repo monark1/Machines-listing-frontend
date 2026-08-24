@@ -11,7 +11,8 @@ import { User } from '../models/user.model';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
 })
 export class DashboardComponent {
   authService = inject(AuthService);

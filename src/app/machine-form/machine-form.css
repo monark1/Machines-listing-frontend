@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #2d3436;
+}
+
+.specs-fieldset {
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.specs-legend {
+  font-size: 0.9rem;
+  color: #636e72;
+  padding: 0 8px;
+  width: auto;
+}
+
+.form-actions {
+  margin-top: 8px;
+}

@@ -1,73 +1,80 @@
-<div class="d-flex justify-content-center align-items-center py-5">
-  <div class="card shadow-sm p-4" style="max-width: 480px; width: 100%;">
-    <h2 class="mb-4">Employee Registration</h2>
+<div class="auth-page">
+  <div class="card register-card">
+    <h2 class="register-title">Employee Registration</h2>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-      <div class="mb-3">
-        <label class="form-label">Full Name</label>
-        <input type="text" class="form-control" formControlName="fullName" />
+      <div class="form-field">
+        <label>Full Name</label>
+        <input type="text" formControlName="fullName" />
         @if (registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid) {
-          <div class="text-danger small mt-1">Full name is required and only Alphabetic chars are allowed</div>
+          <div class="field-error">Full name is required and only Alphabetic chars are allowed</div>
         }
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" formControlName="email" />
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" formControlName="email" />
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
-          <div class="text-danger small mt-1">Enter a valid email.</div>
+          <div class="field-error">Enter a valid email.</div>
         }
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input type="text" class="form-control" formControlName="username" />
+      <div class="form-field">
+        <label>Username</label>
+        <input type="text" formControlName="username" />
         @if (registerForm.get('username')?.pending) {
-          <div class="text-muted small mt-1">Checking availability...</div>
+          <div class="text-secondary">Checking availability...</div>
         }
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('usernameTaken')) {
-          <div class="text-danger small mt-1">This username is already taken.</div>
-          
+          <div class="field-error">This username is already taken.</div>
         }
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('minlength')) {
-          <div class="text-danger small mt-1">Username must be at least 4 characters.</div>
+          <div class="field-error">Username must be at least 4 characters.</div>
         }
-        
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('pattern')) {
-          <div class="text-danger small mt-1">Must contain alphabet</div>}
+          <div class="field-error">Must contain alphabet</div>
+        }
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Department</label>
-        <input type="text" class="form-control" formControlName="department" />
+      <div class="form-field">
+        <label>Department</label>
+        <select formControlName="department">
+          <option value="" disabled selected>Select a department</option>
+          <option value="IT">IT</option>
+          <option value="Service">Service</option>
+          <option value="Sales">Sales</option>
+          <option value="Finance">Finance</option>
+          <option value="HR">HR</option>
+          <option value="Operations">Operations</option>
+        </select>
         @if (registerForm.get('department')?.touched && registerForm.get('department')?.invalid) {
-          <div class="text-danger small mt-1">Department is required & must be alphabetic characters.</div>
+          <div class="field-error">Department is required.</div>
         }
       </div>
 
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" formControlName="password" />
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" formControlName="password" />
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
-          <div class="text-danger small mt-1">Password must be at least 6 characters.</div>
+          <div class="field-error">Password must be at least 6 characters and Must contain at least one uppercase letter, lowercase letter & special Character.</div>
         }
       </div>
 
-      <div class="mb-4">
-        <label class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" formControlName="confirmPassword" />
+      <div class="form-field">
+        <label>Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" />
         @if (registerForm.get('confirmPassword')?.touched && registerForm.errors?.['passwordMismatch']) {
-          <div class="text-danger small mt-1">Passwords do not match.</div>
+          <div class="field-error">Passwords do not match.</div>
         }
       </div>
 
-      <button type="submit" class="btn btn-primary w-100" [disabled]="isSubmitting()">
+      <button type="submit" class="btn-submit" [disabled]="isSubmitting()">
         {{ isSubmitting() ? 'Registering...' : 'Register' }}
       </button>
 
-      <p class="text-center mt-3 mb-0">
-        Already have an account? <button class="btn btn-outline-primary" (click)="goToLogin()">Login</button>
+      <p class="register-footer">
+        Already have an account? <button type="button" class="btn-outline" (click)="goToLogin()">Login</button>
       </p>
 
     </form>

@@ -11,7 +11,8 @@ import { SalesRecord } from '../models/sales-record.model';
   selector: 'app-sales-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './sales-list.html'
+  templateUrl: './sales-list.html',
+  styleUrl: './sales-list.css'
 })
 export class SalesListComponent {
   salesService = inject(SalesService);

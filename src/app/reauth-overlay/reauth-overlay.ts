@@ -7,7 +7,8 @@ import { AuthService } from '../services/auth.service';
   selector: 'app-reauth-overlay',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './reauth-overlay.html'
+  templateUrl: './reauth-overlay.html',
+  styleUrl: './reauth-overlay.css'
 })
 export class ReauthOverlayComponent {
   authService = inject(AuthService);

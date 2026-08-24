@@ -9,7 +9,8 @@ import { NotificationService } from '../services/notification.service';
   selector: 'app-employee-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './employee-list.html'
+  templateUrl: './employee-list.html',
+  styleUrl: './employee-list.css'
 })
 export class EmployeeListComponent {
   private userService = inject(UserService);

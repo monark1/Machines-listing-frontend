@@ -1,18 +1,18 @@
-<div class="container mt-4">
-  <h3 class="mb-3">Employees</h3>
+<div class="page-container">
+  <h3 class="page-title">Employees</h3>
 
   <input #searchBox
     type="text"
-    class="form-control mb-3"
+    class="search-input"
     placeholder="Search by name or email..."
     [value]="searchTerm()"
     (input)="onSearchChange(searchBox.value)"
   />
 
   @if (isLoading()) {
-    <p class="text-muted">Loading employees...</p>
+    <p class="loading-text">Loading employees...</p>
   } @else {
-    <table class="table table-striped table-hover">
+    <table class="data-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -31,15 +31,13 @@
             <td>{{ emp.department }}</td>
             <td>{{ emp.dateJoined | date }}</td>
             <td>
-              <span class="badge" [class.bg-success]="emp.status === 'active'" [class.bg-secondary]="emp.status === 'inactive'">
+              <span [class]="emp.status === 'active' ? 'badge-active' : 'badge-inactive'">
                 {{ emp.status }}
               </span>
             </td>
-            <td>
+            <td class="employee-actions">
               <button
-                class="btn btn-sm"
-                [class.btn-outline-danger]="emp.status === 'active'"
-                [class.btn-outline-success]="emp.status === 'inactive'"
+                [class]="emp.status === 'active' ? 'btn-danger btn-sm' : 'btn-success btn-sm'"
                 (click)="toggleStatus(emp)"
               >
                 {{ emp.status === 'active' ? 'Deactivate' : 'Reactivate' }}
@@ -48,7 +46,7 @@
           </tr>
         }
         @empty {
-          <tr><td colspan="6" class="text-center text-muted">No registered employees yet.</td></tr>
+          <tr><td colspan="6" class="empty-state">No registered employees yet.</td></tr>
         }
       </tbody>
     </table>

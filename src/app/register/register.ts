@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { User } from '../models/user.model';
-import { usernameTakenValidator } from './validator';
+import { usernameTakenValidator, strongPasswordValidator } from './validator';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './register.html'
+  templateUrl: './register.html',
+  styleUrl: './register.css'
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -25,9 +26,9 @@ export class RegisterComponent {
     fullName: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z ]+$')]],
     email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$')], [usernameTakenValidator()]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(6), strongPasswordValidator()]],
     confirmPassword: ['', Validators.required],
-    department: ['', [Validators.required, Validators.pattern('^[^0-9]*$')]]
+    department: ['', [Validators.required]]
   }, { validators: this.passwordsMatchValidator });
 
   private passwordsMatchValidator(group: AbstractControl){

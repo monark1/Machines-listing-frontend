@@ -9,7 +9,8 @@ import { NotificationService } from '../services/notification.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+  styleUrl: './login.css'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
