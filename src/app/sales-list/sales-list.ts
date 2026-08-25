@@ -38,8 +38,11 @@ export class SalesListComponent {
     return [...result].sort((a, b) => {
       const av = a[field];
       const bv = b[field];
-      if (av < bv) return -1 * dir;
-      if (av > bv) return 1 * dir;
+      const aCompare = typeof av === 'string' ? av.toLowerCase() : av;
+      const bCompare = typeof bv === 'string' ? bv.toLowerCase() : bv;
+
+      if (aCompare < bCompare) return -1 * dir;
+      if (aCompare > bCompare) return 1 * dir;
       return 0;
     });
   });
@@ -50,6 +53,7 @@ export class SalesListComponent {
   });
 
   totalPages = computed(() => Math.max(1, Math.ceil(this.filteredSales().length / this.pageSize)));
+  pageNumbers = computed(() => Array.from({ length: this.totalPages() }, (_, i) => i + 1));
 
   ngOnInit(): void {
     this.salesService.loadSales();
@@ -84,9 +88,10 @@ export class SalesListComponent {
   doc.text('Sales Report', 14, 15);
 
   const columns: { label: string; getValue: (m: SalesRecord) => string | number }[] = [
-      { label: 'Machine-Id', getValue: m => m.id },
+      { label: 'Machine', getValue: m => this.getMachineName(m.machineId) },
       { label: 'Region', getValue: m => m.region },
       { label: 'Qty Sold', getValue: m => m.quantitySold },
+      { label: 'Revenue', getValue: s => s.revenue },
       { label: 'Sale Date', getValue: m => m.saleDate },
       { label: 'Dealer', getValue: m => m.dealerName }
     ];

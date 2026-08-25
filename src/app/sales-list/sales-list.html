@@ -8,69 +8,66 @@
     </div>
   </div>
 
-  <input #searchBox
-    type="text"
-    class="search-input"
-    placeholder="Search by region or dealer..."
-    [value]="searchTerm()"
-    (input)="onSearchChange(searchBox.value)"
-  />
+  <input #searchBox type="text" class="search-input" placeholder="Search by region or dealer..." [value]="searchTerm()"
+    (input)="onSearchChange(searchBox.value)" />
 
   @if (salesService.isLoading()) {
-    <p class="loading-text">Loading sales...</p>
+  <p class="loading-text">Loading sales...</p>
   } @else {
 
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Machine ID</th>
-          <th class="sortable-header" (click)="toggleSort('region')">
-            Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th>Qty Sold</th>
-          <th class="sortable-header" (click)="toggleSort('revenue')">
-            Revenue @if (sortField() === 'revenue') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th class="sortable-header" (click)="toggleSort('saleDate')">
-            Sale Date @if (sortField() === 'saleDate') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-          <th class="sortable-header" (click)="toggleSort('dealerName')">
-            Dealer @if (sortField() === 'dealerName') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (sale of pagedSales(); track sale.id) {
-          <tr>
-            <td>{{ sale.machineId }}</td>
-            <td>{{ sale.region }}</td>
-            <td>{{ sale.quantitySold }}</td>
-            <td>{{ sale.revenue | currency }}</td>
-            <td>{{ sale.saleDate | date }}</td>
-            <td>{{ sale.dealerName }}</td>
-          </tr>
-        }
-        @empty {
-          <tr><td colspan="6" class="empty-state">No sales records found.</td></tr>
-        }
-      </tbody>
-    </table>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Machine</th>
+        <th class="sortable-header" (click)="toggleSort('region')">
+          Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th>Qty Sold</th>
+        <th class="sortable-header" (click)="toggleSort('revenue')">
+          Revenue @if (sortField() === 'revenue') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th class="sortable-header" (click)="toggleSort('saleDate')">
+          Sale Date @if (sortField() === 'saleDate') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+        <th class="sortable-header" (click)="toggleSort('dealerName')">
+          Dealer @if (sortField() === 'dealerName') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (sale of pagedSales(); track sale.id) {
+      <tr>
+        <td>{{ getMachineName(sale.machineId) }}</td>
+        <td>{{ sale.region }}</td>
+        <td>{{ sale.quantitySold }}</td>
+        <td>{{ sale.revenue | currency }}</td>
+        <td>{{ sale.saleDate | date }}</td>
+        <td>{{ sale.dealerName }}</td>
+      </tr>
+      }
+      @empty {
+      <tr>
+        <td colspan="6" class="empty-state">No sales records found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 
-    <nav class="pagination-nav">
-      <ul class="pagination-list">
-        <li class="pagination-item" [class.disabled]="currentPage() === 1">
-          <button (click)="goToPage(currentPage() - 1)">Previous</button>
-        </li>
-        @for (page of [].constructor(totalPages()); track $index) {
-          <li class="pagination-item" [class.active]="currentPage() === $index + 1">
-            <button (click)="goToPage($index + 1)">{{ $index + 1 }}</button>
-          </li>
-        }
-        <li class="pagination-item" [class.disabled]="currentPage() === totalPages()">
-          <button (click)="goToPage(currentPage() + 1)">Next</button>
-        </li>
-      </ul>
-    </nav>
+  <nav class="pagination-nav">
+    <ul class="pagination-list">
+      <li class="pagination-item" [class.disabled]="currentPage() === 1">
+        <button (click)="goToPage(currentPage() - 1)">Previous</button>
+      </li>
+      @for (page of pageNumbers(); track page) {
+      <li class="pagination-item" [class.active]="currentPage() === page">
+        <button (click)="goToPage(page)">{{ page }}</button>
+      </li>
+      }
+      <li class="pagination-item" [class.disabled]="currentPage() === totalPages()">
+        <button (click)="goToPage(currentPage() + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
 
   }
 </div>

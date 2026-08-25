@@ -73,9 +73,9 @@
       <li class="pagination-item" [class.disabled]="currentPage() === 1">
         <button (click)="goToPage(currentPage() - 1)">Previous</button>
       </li>
-      @for (page of [].constructor(totalPages()); track $index) {
-      <li class="pagination-item" [class.active]="currentPage() === $index + 1">
-        <button (click)="goToPage($index + 1)">{{ $index + 1 }}</button>
+      @for (page of pageNumbers(); track page) {
+      <li class="pagination-item" [class.active]="currentPage() === page">
+        <button (click)="goToPage(page)">{{ page }}</button>
       </li>
       }
       <li class="pagination-item" [class.disabled]="currentPage() === totalPages()">

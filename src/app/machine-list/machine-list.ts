@@ -60,6 +60,10 @@ export class MachineListComponent {
     return Math.max(1, Math.ceil(this.filteredMachines().length / this.pageSize));
   });
 
+  pageNumbers = computed(() =>
+    Array.from({ length: this.totalPages() }, (_, i) => i + 1)
+  );
+
   ngOnInit(): void {
     this.machineService.loadMachines();
   }
