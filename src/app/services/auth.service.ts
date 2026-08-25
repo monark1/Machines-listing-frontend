@@ -8,6 +8,7 @@ import { JwtPayload } from '../models/jwt-payload.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  isAuthenticated = signal<boolean>(false);
   private readonly ACCESS_TOKEN_KEY = 'access_token';   
   private readonly REFRESH_TOKEN_KEY = 'refresh_token'; 
 
@@ -18,6 +19,7 @@ export class AuthService {
   private router      = inject(Router);
 
   constructor() {
+     this.isAuthenticated.set(this.isLoggedIn());
     this.startSessionTimer();
   }
 
@@ -72,6 +74,7 @@ export class AuthService {
 
     localStorage.setItem(this.ACCESS_TOKEN_KEY, this.buildToken(accessPayload));
     localStorage.setItem(this.REFRESH_TOKEN_KEY, this.buildToken(refreshPayload));
+     this.isAuthenticated.set(true);
     this.startSessionTimer();
   }
 
@@ -169,6 +172,7 @@ export class AuthService {
     this.clearSessionTimer();
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.isAuthenticated.set(false);
   }
 
   logout(): void {
