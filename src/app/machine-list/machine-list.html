@@ -22,17 +22,17 @@
     <thead>
       <tr>
         <th class="sortable-header" (click)="toggleSort('name')">
-          Name @if (sortField() === 'name') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Name @if (sortField() === 'name') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th class="sortable-header" (click)="toggleSort('category')">
-          Category @if (sortField() === 'category') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Category @if (sortField() === 'category') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th class="sortable-header" (click)="toggleSort('launchYear')">
-          Launch Year @if (sortField() === 'launchYear') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Launch Year @if (sortField() === 'launchYear') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th>Status</th>
         <th class="sortable-header" (click)="toggleSort('unitPrice')">
-          Unit Price @if (sortField() === 'unitPrice') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Unit Price @if (sortField() === 'unitPrice') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         @if (isAdmin()) {
         <th>Actions</th>

@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "username": "admin",
       "password": "admin123",
       "role": "admin",
@@ -12,7 +12,7 @@
       "status": "active"
     },
     {
-      "id": "2",
+      "id": 2,
       "username": "stake1",
       "password": "stake123",
       "role": "stakeholder",
@@ -31,7 +31,7 @@
       "department": "IT",
       "dateJoined": "2026-08-16T19:27:07.133Z",
       "status": "active",
-      "id": "PfqskkinzKs"
+      "id": 3
     },
     {
       "username": "rohit",
@@ -42,7 +42,7 @@
       "department": "IT",
       "dateJoined": "2026-08-17T03:57:57.040Z",
       "status": "active",
-      "id": "KoIn9DsBcDo"
+      "id": 4
     },
     {
       "username": "vineet",
@@ -53,7 +53,7 @@
       "department": "IT",
       "dateJoined": "2026-08-17T07:49:06.085Z",
       "status": "active",
-      "id": "WyC1_-L"
+      "id": 5
     }
   ],
   "machines": [

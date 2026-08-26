@@ -20,17 +20,17 @@
       <tr>
         <th>Machine</th>
         <th class="sortable-header" (click)="toggleSort('region')">
-          Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th>Qty Sold</th>
         <th class="sortable-header" (click)="toggleSort('revenue')">
-          Revenue @if (sortField() === 'revenue') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Revenue @if (sortField() === 'revenue') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th class="sortable-header" (click)="toggleSort('saleDate')">
-          Sale Date @if (sortField() === 'saleDate') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Sale Date @if (sortField() === 'saleDate') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
         <th class="sortable-header" (click)="toggleSort('dealerName')">
-          Dealer @if (sortField() === 'dealerName') { {{ sortDirection() === 'asc' ? 'up' : 'down' }} }
+          Dealer @if (sortField() === 'dealerName') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
       </tr>
     </thead>
