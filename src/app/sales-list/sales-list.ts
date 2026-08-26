@@ -32,7 +32,9 @@ export class SalesListComponent {
     let result = this.salesService.sales();
     if (term) {
       result = result.filter(s =>
-        s.region.toLowerCase().includes(term) || s.dealerName.toLowerCase().includes(term)
+        s.region.toLowerCase().includes(term) || s.dealerName.toLowerCase().includes(term) ||
+        s.saleDate.toLowerCase().includes(term) || s.quantitySold.toString().includes(term) ||
+        s.revenue.toString().includes(term) || this.getMachineName(s.machineId).toLowerCase().includes(term)
       );
     }
     return [...result].sort((a, b) => {

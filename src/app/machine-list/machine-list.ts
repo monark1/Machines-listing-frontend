@@ -36,7 +36,13 @@ export class MachineListComponent {
     let result = this.machineService.machines();
 
     if (term) {
-      result = result.filter(m => m.name.toLowerCase().includes(term));
+      result = result.filter(m =>
+        m.name.toLowerCase().includes(term) ||
+        m.category.toLowerCase().includes(term) ||
+        m.status.toLowerCase().includes(term) ||
+        m.launchYear.toString().includes(term) ||
+        m.unitPrice.toString().includes(term)
+      );
     }
 
     return [...result].sort((a, b) => {
