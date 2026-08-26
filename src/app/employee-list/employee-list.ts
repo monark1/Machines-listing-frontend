@@ -20,15 +20,33 @@ export class EmployeeListComponent {
   isLoading = signal(false);
   searchTerm = signal('');
 
-  employees = computed(() =>
-    this.allUsers()
-      .filter(u => u.role === 'employee')
-      .filter(u => {
-        const term = this.searchTerm().trim().toLowerCase();
-        if (!term) return true;
-        return u.fullName.toLowerCase().includes(term) || u.email.toLowerCase().includes(term);
-      })
-  );
+  sortField = signal<keyof User>('fullName');
+  sortDirection = signal<'asc' | 'desc'>('asc');
+
+  employees = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+    const field = this.sortField();
+    const dir = this.sortDirection() === 'asc' ? 1 : -1;
+
+    let result = this.allUsers().filter(u => u.role === 'employee');
+
+    if (term) {
+      result = result.filter(u => 
+        u.fullName.toLowerCase().includes(term) || u.email.toLowerCase().includes(term)
+      );
+    }
+
+    return [...result].sort((a, b) => {
+      const av = a[field];
+      const bv = b[field];
+      const aCompare = typeof av === 'string' ? av.toLowerCase() : av;
+      const bCompare = typeof bv === 'string' ? bv.toLowerCase() : bv;
+
+      if (aCompare < bCompare) return -1 * dir;
+      if (aCompare > bCompare) return 1 * dir;
+      return 0;
+    });
+  });
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -47,6 +65,15 @@ export class EmployeeListComponent {
 
   onSearchChange(term: string): void {
     this.searchTerm.set(term);
+  }
+
+  toggleSort(field: keyof User): void {
+    if (this.sortField() === field) {
+      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sortField.set(field);
+      this.sortDirection.set('asc');
+    }
   }
 
   toggleStatus(user: User): void {

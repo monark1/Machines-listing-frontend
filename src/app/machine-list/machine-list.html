@@ -30,7 +30,8 @@
         <th class="sortable-header" (click)="toggleSort('launchYear')">
           Launch Year @if (sortField() === 'launchYear') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
-        <th>Status</th>
+        <th class="sortable-header" (click)="toggleSort('status')">
+          Status @if (sortField() === 'status') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} } </th>
         <th class="sortable-header" (click)="toggleSort('unitPrice')">
           Unit Price @if (sortField() === 'unitPrice') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>

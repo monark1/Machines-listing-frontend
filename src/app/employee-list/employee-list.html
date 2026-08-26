@@ -15,11 +15,21 @@
     <table class="data-table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Department</th>
-          <th>Date Joined</th>
-          <th>Status</th>
+          <th class="sortable-header" (click)="toggleSort('fullName')">
+            Name @if (sortField() === 'fullName') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+          </th>
+          <th class="sortable-header" (click)="toggleSort('email')">
+            Email @if (sortField() === 'email') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+          </th>
+          <th class="sortable-header" (click)="toggleSort('department')">
+            Department @if (sortField() === 'department') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+          </th>
+          <th class="sortable-header" (click)="toggleSort('dateJoined')">
+            Date Joined @if (sortField() === 'dateJoined') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+          </th>
+          <th class="sortable-header" (click)="toggleSort('status')">
+            Status @if (sortField() === 'status') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+          </th>
           <th>Action</th>
         </tr>
       </thead>

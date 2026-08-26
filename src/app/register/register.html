@@ -5,7 +5,7 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
       <div class="form-field">
-        <label>Full Name</label>
+        <label>Full Name <span class="required-asterisk">*</span></label>
         <input type="text" formControlName="fullName" />
         @if (registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid) {
           <div class="field-error">Full name is required and only Alphabetic chars are allowed</div>
@@ -13,7 +13,7 @@
       </div>
 
       <div class="form-field">
-        <label>Email</label>
+        <label>Email <span class="required-asterisk">*</span></label>
         <input type="email" formControlName="email" />
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
           <div class="field-error">Enter a valid email.</div>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="form-field">
-        <label>Username</label>
+        <label>Username <span class="required-asterisk">*</span></label>
         <input type="text" formControlName="username" />
         @if (registerForm.get('username')?.pending) {
           <div class="text-secondary">Checking availability...</div>
@@ -38,7 +38,7 @@
       </div>
 
       <div class="form-field">
-        <label>Department</label>
+        <label>Department <span class="required-asterisk">*</span></label>
         <select formControlName="department">
           <option value="" disabled selected>Select a department</option>
           <option value="IT">IT</option>
@@ -54,7 +54,7 @@
       </div>
 
       <div class="form-field">
-        <label>Password</label>
+        <label>Password <span class="required-asterisk">*</span></label>
         <input type="password" formControlName="password" />
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
           <div class="field-error">Password must be at least 6 characters and Must contain at least one uppercase letter, lowercase letter & special Character.</div>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="form-field">
-        <label>Confirm Password</label>
+        <label>Confirm Password <span class="required-asterisk">*</span></label>
         <input type="password" formControlName="confirmPassword" />
         @if (registerForm.get('confirmPassword')?.touched && registerForm.errors?.['passwordMismatch']) {
           <div class="field-error">Passwords do not match.</div>
