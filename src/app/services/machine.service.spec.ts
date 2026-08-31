@@ -110,5 +110,61 @@ describe('MachineService', () => {
     });
   });
 
-  
+  describe('updateMachine', () => {
+    it('should PUT the update and replace the matching machine in the signal', () => {
+      const original: Machine = { ...mockMachine };
+      const updated: Machine = { ...mockMachine, name: 'AlphaFlex Pro' };
+      service.machines.set([original]);
+
+      service.updateMachine(1, updated).subscribe(result => {
+        expect(result).toEqual(updated);
+      });
+
+      const req = httpMock.expectOne(`${API_URL}/1`);
+      expect(req.request.method).toBe('PUT');
+      req.flush(updated);
+
+      expect(service.machines()).toEqual([updated]);
+    });
+
+    it('should leave other machines in the list untouched', () => {
+      const other: Machine = { ...mockMachine, id: 2, name: 'Untouched' };
+      const original: Machine = { ...mockMachine, id: 1 };
+      const updated: Machine = { ...original, name: 'Updated Name' };
+      service.machines.set([original, other]);
+
+      service.updateMachine(1, updated).subscribe();
+
+      const req = httpMock.expectOne(`${API_URL}/1`);
+      req.flush(updated);
+
+      expect(service.machines()).toEqual([updated, other]);
+    });
+  });
+
+  describe('deleteMachine', () => {
+    it('should DELETE and remove the matching machine from the signal', () => {
+      service.machines.set([mockMachine]);
+
+      service.deleteMachine(1).subscribe();
+
+      const req = httpMock.expectOne(`${API_URL}/1`);
+      expect(req.request.method).toBe('DELETE');
+      req.flush(null);
+
+      expect(service.machines()).toEqual([]);
+    });
+
+    it('should leave non-matching machines in the list', () => {
+      const other: Machine = { ...mockMachine, id: 2 };
+      service.machines.set([mockMachine, other]);
+
+      service.deleteMachine(1).subscribe();
+
+      const req = httpMock.expectOne(`${API_URL}/1`);
+      req.flush(null);
+
+      expect(service.machines()).toEqual([other]);
+    });
+  });
 });
