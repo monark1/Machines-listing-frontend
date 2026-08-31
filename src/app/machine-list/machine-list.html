@@ -11,7 +11,7 @@
     }
   </div>
 
-  <input #searchBox type="text" class="search-input" placeholder="Search by name..." [value]="searchTerm()"
+  <input #searchBox type="text" class="search-input" placeholder="Search by name, category, status, year, or price..." [value]="searchTerm()"
     (input)="onSearchChange(searchBox.value)" />
 
   @if (machineService.isLoading()) {

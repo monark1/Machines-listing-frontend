@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <input #searchBox type="text" class="search-input" placeholder="Search by region or dealer..." [value]="searchTerm()"
+  <input #searchBox type="text" class="search-input" placeholder="Search by machine, region, dealer, date, quantity, or revenue..." [value]="searchTerm()"
     (input)="onSearchChange(searchBox.value)" />
 
   @if (salesService.isLoading()) {
@@ -41,7 +41,7 @@
         <td>{{ sale.region }}</td>
         <td>{{ sale.quantitySold }}</td>
         <td>{{ sale.revenue | currency }}</td>
-        <td>{{ sale.saleDate | date }}</td>
+        <td>{{ sale.saleDate }}</td>
         <td>{{ sale.dealerName }}</td>
       </tr>
       }

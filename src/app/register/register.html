@@ -26,7 +26,7 @@
         @if (registerForm.get('username')?.pending) {
           <div class="text-secondary">Checking availability...</div>
         }
-        @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('usernameTaken')) {
+        @if (registerForm.get('username')?.dirty && registerForm.get('username')?.hasError('usernameTaken')) {
           <div class="field-error">This username is already taken.</div>
         }
         @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('minlength')) {
