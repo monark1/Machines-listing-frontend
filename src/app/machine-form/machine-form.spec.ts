@@ -133,5 +133,65 @@ describe('MachineFormComponent', () => {
     });
   });
 
-  
+  describe('onSubmit — invalid form', () => {
+    it('should mark all fields touched and call neither addMachine nor updateMachine', () => {
+      const fixture = setup(null);
+      fixture.componentInstance.onSubmit();
+
+      expect(fixture.componentInstance.machineForm.get('name')?.touched).toBe(true);
+      expect(machineServiceMock.addMachine).not.toHaveBeenCalled();
+      expect(machineServiceMock.updateMachine).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onSubmit — valid form, add mode', () => {
+    it('should call addMachine with the form value, show success, and navigate', () => {
+      const fixture = setup(null);
+      fillValidForm(fixture);
+
+      fixture.componentInstance.onSubmit();
+
+      expect(machineServiceMock.addMachine).toHaveBeenCalledWith(validDraft);
+      expect(machineServiceMock.updateMachine).not.toHaveBeenCalled();
+      expect(notificationMock.success).toHaveBeenCalledWith('Machine added');
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/machines']);
+    });
+  });
+
+  describe('onSubmit — valid form, edit mode', () => {
+    it('should call updateMachine with the machine id and form value', () => {
+      const fixture = setup('5');
+      fillValidForm(fixture);
+
+      fixture.componentInstance.onSubmit();
+
+      expect(machineServiceMock.updateMachine).toHaveBeenCalledWith(5, validDraft);
+      expect(machineServiceMock.addMachine).not.toHaveBeenCalled();
+      expect(notificationMock.success).toHaveBeenCalledWith('Machine updated');
+    });
+  });
+
+  describe('onSubmit — request fails', () => {
+    it('should reset isSubmitting() and show an error, without navigating', () => {
+      const fixture = setup(null);
+      fillValidForm(fixture);
+      machineServiceMock.addMachine.mockReturnValue(throwError(() => new Error('server error')));
+
+      fixture.componentInstance.onSubmit();
+
+      expect(fixture.componentInstance.isSubmitting()).toBe(false);
+      expect(notificationMock.error).toHaveBeenCalledWith('Something went wrong. Please try again.');
+      expect(routerMock.navigate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('cancel', () => {
+    it('should navigate to /machines without submitting', () => {
+      const fixture = setup(null);
+      fixture.componentInstance.cancel();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/machines']);
+      expect(machineServiceMock.addMachine).not.toHaveBeenCalled();
+    });
+  });
 });
