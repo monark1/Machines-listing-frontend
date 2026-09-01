@@ -1,22 +1,137 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { vi, describe, it, expect } from 'vitest';
+import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { MachineFormComponent } from './machine-form';
+import { MachineService } from '../services/machine.services';
+import { NotificationService } from '../services/notification.service';
+import { Machine, MachineDraft } from '../models/machine.model';
 
-import { MachineForm } from './machine-form';
+describe('MachineFormComponent', () => {
+  let machineServiceMock: {
+    getMachine: ReturnType<typeof vi.fn>;
+    addMachine: ReturnType<typeof vi.fn>;
+    updateMachine: ReturnType<typeof vi.fn>;
+  };
+  let notificationMock: { success: ReturnType<typeof vi.fn>; error: ReturnType<typeof vi.fn> };
+  let routerMock: { navigate: ReturnType<typeof vi.fn> };
 
-describe('MachineForm', () => {
-  let component: MachineForm;
-  let fixture: ComponentFixture<MachineForm>;
+  const mockMachine: Machine = {
+    id: 5,
+    name: 'AlphaFlex',
+    category: 'Flexo Press',
+    launchYear: 2020,
+    status: 'active',
+    unitPrice: 500000,
+    specs: { width: 1200, speed: 400, printColors: 8 }
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MachineForm],
-    }).compileComponents();
+  const validDraft: MachineDraft = {
+    name: 'HelioStar',
+    category: 'Extrusion',
+    launchYear: 2024,
+    status: 'active',
+    unitPrice: 100000,
+    specs: { width: 500, speed: 300, printColors: 4 }
+  };
 
-    fixture = TestBed.createComponent(MachineForm);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+
+  function setup(routeId: string | null) {
+    machineServiceMock = {
+      getMachine: vi.fn().mockReturnValue(of(mockMachine)),
+      addMachine: vi.fn().mockReturnValue(of(mockMachine)),
+      updateMachine: vi.fn().mockReturnValue(of(mockMachine))
+    };
+    notificationMock = { success: vi.fn(), error: vi.fn() };
+    routerMock = { navigate: vi.fn() };
+
+    const activatedRouteMock = {
+      snapshot: { paramMap: convertToParamMap(routeId ? { id: routeId } : {}) }
+    };
+
+    TestBed.configureTestingModule({
+      imports: [MachineFormComponent],
+      providers: [
+        { provide: MachineService, useValue: machineServiceMock },
+        { provide: NotificationService, useValue: notificationMock },
+        { provide: Router, useValue: routerMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
+      ]
+    });
+
+    const fixture = TestBed.createComponent(MachineFormComponent);
+    fixture.detectChanges(); 
+    return fixture;
+  }
+
+  function fillValidForm(fixture: ReturnType<typeof setup>) {
+    fixture.componentInstance.machineForm.setValue({
+      name: validDraft.name,
+      category: validDraft.category,
+      launchYear: validDraft.launchYear,
+      status: validDraft.status,
+      unitPrice: validDraft.unitPrice,
+      specs: validDraft.specs
+    });
+  }
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = setup(null);
+    expect(fixture.componentInstance).toBeTruthy();
   });
+
+  describe('ngOnInit — add (no route param)', () => {
+    it('should stay in add mode and not call getMachine', () => {
+      const fixture = setup(null);
+      const component = fixture.componentInstance;
+
+      expect(component.isEditMode).toBe(false);
+      expect(component.machineId).toBeNull();
+      expect(machineServiceMock.getMachine).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnInit — edit (route param present)', () => {
+    it('should switch to edit mode and fetch the machine by id', () => {
+      const fixture = setup('5');
+      const component = fixture.componentInstance;
+
+      expect(component.isEditMode).toBe(true);
+      expect(component.machineId).toBe(5);
+      expect(machineServiceMock.getMachine).toHaveBeenCalledWith(5);
+    });
+
+    it('should patch the form with the fetched machine data', () => {
+      const fixture = setup('5');
+      const formValue = fixture.componentInstance.machineForm.getRawValue();
+
+      expect(formValue.name).toBe(mockMachine.name);
+      expect(formValue.specs?.printColors).toBe(mockMachine.specs.printColors);
+    });
+
+    it('should show an error notification if the machine fails to load', () => {
+      machineServiceMock.getMachine = vi.fn().mockReturnValue(throwError(() => new Error('not found')));
+
+      TestBed.resetTestingModule();
+      notificationMock = { success: vi.fn(), error: vi.fn() };
+      routerMock = { navigate: vi.fn() };
+
+      TestBed.configureTestingModule({
+        imports: [MachineFormComponent],
+        providers: [
+          { provide: MachineService, useValue: machineServiceMock },
+          { provide: NotificationService, useValue: notificationMock },
+          { provide: Router, useValue: routerMock },
+          { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ id: '5' }) } } }
+        ]
+      });
+
+      const fixture = TestBed.createComponent(MachineFormComponent);
+      fixture.detectChanges();
+
+      expect(notificationMock.error).toHaveBeenCalledWith('Could not load machine details');
+    });
+  });
+
+  
 });
