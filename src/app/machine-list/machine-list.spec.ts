@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MachineList } from './machine-list';
+import { MachineListComponent } from './machine-list';
 
 describe('MachineList', () => {
-  let component: MachineList;
-  let fixture: ComponentFixture<MachineList>;
+  let component: MachineListComponent;
+  let fixture: ComponentFixture<MachineListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MachineList],
+      imports: [MachineListComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MachineList);
+    fixture = TestBed.createComponent(MachineListComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

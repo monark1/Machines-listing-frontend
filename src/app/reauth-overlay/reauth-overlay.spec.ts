@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReauthOverlay } from './reauth-overlay';
+import { ReauthOverlayComponent } from './reauth-overlay';
 
 describe('ReauthOverlay', () => {
-  let component: ReauthOverlay;
-  let fixture: ComponentFixture<ReauthOverlay>;
+  let component: ReauthOverlayComponent;
+  let fixture: ComponentFixture<ReauthOverlayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReauthOverlay],
+      imports: [ReauthOverlayComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ReauthOverlay);
+    fixture = TestBed.createComponent(ReauthOverlayComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
