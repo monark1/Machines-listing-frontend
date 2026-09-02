@@ -1,12 +1,15 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { TokenService } from '../services/token.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token  = inject(TokenService);
   const auth  = inject(AuthService);
-  const token = auth.getAccessToken();
 
-  if (token && !auth.isLoggedIn() ) {
+  const accessToken = token.getAccessToken();
+
+  if (accessToken && !auth.isLoggedIn() ) {
     if (auth.isRefreshTokenValid()) {
     auth.reAuthNeeded.set(true);
     } else {
@@ -15,7 +18,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     
   }
 
-  if (token) {
+  if (accessToken) {
     req = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
   }
 
