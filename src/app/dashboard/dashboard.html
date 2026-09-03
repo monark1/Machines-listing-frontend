@@ -1,47 +1,41 @@
-<div class="container mt-4">
-  <h2>Welcome, {{ userName() }}</h2>
-  <p class="text-muted">Role: {{ role() }}</p>
+<div class="page-container">
+  <h2 class="dashboard-welcome">Welcome, {{ userName() }}</h2>
+  <p class="dashboard-role">Role: {{ role() }}</p>
 
-  <div class="row mt-4">
+  <div class="stats-grid">
 
-    <!-- visible to everyone -->
-    <div class="col-md-4 mb-3">
-      <div class="card p-3">
-        <h6 class="text-muted">Total Machines</h6>
-        <h3>{{ totalMachines() }}</h3>
-        <small class="text-muted">{{ activeMachines() }} active</small>
-      </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Machines</div>
+      <div class="stat-value">{{ totalMachines() }}</div>
+      <div class="stat-detail">{{ activeMachines() }} active</div>
     </div>
 
     @if (role() === 'stakeholder' || role() === 'admin') {
-      <div class="col-md-4 mb-3">
-        <div class="card p-3">
-          <h6 class="text-muted">Total Revenue</h6>
-          <h3>{{ totalRevenue() | currency }}</h3>
-          <small class="text-muted">{{ totalSalesCount() }} sales records</small>
-        </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value">{{ totalRevenue() | currency }}</div>
+        <div class="stat-detail">{{ totalSalesCount() }} sales records</div>
       </div>
     }
 
     @if (role() === 'admin') {
-      <div class="col-md-4 mb-3">
-        <div class="card p-3">
-          <h6 class="text-muted">Employees</h6>
-          <h3>{{ totalEmployees() }}</h3>
-          <small class="text-muted">{{ activeEmployees() }} active</small>
-        </div>
+      <div class="stat-card">
+        <div class="stat-label">Employees</div>
+        <div class="stat-value">{{ totalEmployees() }}</div>
+        <div class="stat-detail">{{ activeEmployees() }} active</div>
       </div>
     }
 
   </div>
 
-  <div class="mt-4">
-    <a routerLink="/machines" class="btn btn-outline-primary me-2">View Machines</a>
+  <div class="dashboard-actions">
     @if (role() === 'stakeholder' || role() === 'admin') {
-      <a routerLink="/sales" class="btn btn-outline-primary me-2">View Sales</a>
+      <button class="btn-outline" (click)="goToSales()">View Sales</button>
     }
+    <button class="btn-outline" (click)="goToMachines()">View Machines</button>
     @if (role() === 'admin') {
-      <a routerLink="/employees" class="btn btn-outline-primary">Manage Employees</a>
+      <button class="btn-outline" (click)="goToEmployees()">Manage Employees</button>
     }
   </div>
+
 </div>

@@ -1,5 +1,6 @@
 <app-notification-toast></app-notification-toast>
-@if (authService.isLoggedIn()) {
+@if (authService.isAuthenticated()) {
   <app-navbar></app-navbar>
 }
+<app-reauth-overlay></app-reauth-overlay>
 <router-outlet></router-outlet>

@@ -1,17 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { User } from '../models/user.model';
-import { usernameTakenValidator } from './validator';
+import { usernameTakenValidator, strongPasswordValidator } from './validator';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './register.html'
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './register.html',
+  styleUrl: './register.css'
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -22,15 +23,15 @@ export class RegisterComponent {
   isSubmitting = signal(false);
 
   registerForm = this.fb.group({
-    fullName: ['', [Validators.required, Validators.minLength(2)]],
+    fullName: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z ]+$')]],
     email: ['', [Validators.required, Validators.email]],
-    username: ['', [Validators.required, Validators.minLength(4)], [usernameTakenValidator()]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    username: ['', [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$')], [usernameTakenValidator()]],
+    password: ['', [Validators.required, Validators.minLength(6), strongPasswordValidator()]],
     confirmPassword: ['', Validators.required],
-    department: ['', Validators.required]
+    department: ['', [Validators.required]]
   }, { validators: this.passwordsMatchValidator });
 
-  private passwordsMatchValidator(group: any) {
+  private passwordsMatchValidator(group: AbstractControl){
     const pass = group.get('password')?.value;
     const confirm = group.get('confirmPassword')?.value;
     return pass === confirm ? null : { passwordMismatch: true };
@@ -67,4 +68,7 @@ export class RegisterComponent {
       }
     });
   }
+  goToLogin(): void {
+  this.router.navigate(['/login']);
+}
 }

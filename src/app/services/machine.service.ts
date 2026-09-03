@@ -2,10 +2,11 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Machine, MachineDraft } from '../models/machine.model';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class MachineService {
-  private readonly API_URL = 'http://localhost:3000/machines';
+  private readonly API_URL = `${API_BASE_URL}/machines`;
 
   machines = signal<Machine[]>([]);
 
@@ -17,16 +18,10 @@ export class MachineService {
   }
 
   addMachine(machine: MachineDraft): Observable<Machine> {
-  const nextId = this.machines().length
-    ? Math.max(...this.machines().map(m => m.id)) + 1
-    : 1;
-
-  const payload = { ...machine, id: nextId };
-
-  return this.http.post<Machine>(this.API_URL, payload).pipe(
-    tap(created => this.machines.update(list => [...list, created]))
-  );
-}
+    return this.http.post<Machine>(this.API_URL, machine).pipe(
+      tap(created => this.machines.update(list => [...list, created]))
+    );
+  }
 
   updateMachine(id: number, machine: MachineDraft): Observable<Machine> {
     return this.http.put<Machine>(`${this.API_URL}/${id}`, machine).pipe(

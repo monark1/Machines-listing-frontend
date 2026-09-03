@@ -1,29 +1,31 @@
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-card" style="max-width: 360px; width: 100%;">
-    <h2 class="mb-3">Login</h2>
+<div class="auth-page">
+  <div class="card">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <h2 class="login-title">Login</h2>
 
-    <div class="field mb-3">
-      <label>Username</label>
-      <input type="text" class="form-control" formControlName="username" />
+    <div class="form-field">
+      <label>Username <span class="required-asterisk">*</span></label>
+      <input type="text" formControlName="username" />
       @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
         <p class="field-error">Username is required.</p>
       }
     </div>
 
-    <div class="field mb-3">
-      <label>Password</label>
-      <input type="password" class="form-control" formControlName="password" />
+    <div class="form-field">
+      <label>Password <span class="required-asterisk">*</span></label>
+      <input type="password" formControlName="password" />
       @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
         <p class="field-error">Password is required.</p>
       }
     </div>
 
-    <button type="submit" class="btn btn-primary w-100" [disabled]="isSubmitting()">
+    <button type="submit" class="btn-submit" [disabled]="isSubmitting()">
       {{ isSubmitting() ? 'Logging in...' : 'Login' }}
     </button>
 
-    <p class="text-center mt-3">
-      Don't have an account? <a routerLink="/register">Register here</a>
+    <p class="login-footer">
+      Don't have an account? <button type="button" class="btn-outline" (click)="goToRegister()">Register Here</button>
     </p>
   </form>
+</div>
 </div>

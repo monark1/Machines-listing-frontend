@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { User } from '../models/user.model';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private readonly API_URL = 'http://localhost:3000/users';
+  private readonly API_URL = `${API_BASE_URL}/users`;
 
   constructor(private http: HttpClient) {}
 
-  findByUsername(username: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.API_URL}?username=${username}`);
+  findByUsername(username: string, context?: HttpContext): Observable<User[]> {
+    return this.http.get<User[]>(`${this.API_URL}?username=${username}`, { context });
   }
 
   getAllUsers(): Observable<User[]> {

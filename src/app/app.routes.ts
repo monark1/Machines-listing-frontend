@@ -24,6 +24,6 @@ export const routes: Routes = [
   { path: 'employees', canActivate: [authGuard, roleGuard], data: { roles: ['admin'] },
     loadComponent: () => import('./employee-list/employee-list').then(m => m.EmployeeListComponent) },
 
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: 'dashboard' }
 ];

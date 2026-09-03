@@ -1,0 +1,22 @@
+.login-form {
+  max-width: 360px;
+  width: 100%;
+}
+
+.login-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #202425;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #636e72;
+  font-size: 0.9rem;
+}
+
+.login-footer button {
+  margin-left: 4px;
+}

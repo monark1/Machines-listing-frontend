@@ -1,0 +1,21 @@
+@if (authService.reAuthNeeded()) {
+  <div class="overlay-backdrop">
+    <div class="overlay-card">
+      <h5 class="overlay-title">{{ authService.getUserName() }}, your session has expired.</h5>
+      <p class="overlay-subtitle">Please verify your password to continue.</p>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="onVerify()">
+        <input type="password" class="overlay-input" formControlName="password" placeholder="Password" />
+        @if (errorMessage()) {
+          <div class="overlay-error">{{ errorMessage() }}</div>
+        }
+        <div class="overlay-actions">
+          <button type="button" class="btn-secondary" (click)="onSignOut()">Sign Out</button>
+          <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Verifying...' : 'Verify' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

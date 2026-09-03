@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "username": "admin",
       "password": "admin123",
       "role": "admin",
@@ -12,7 +12,7 @@
       "status": "active"
     },
     {
-      "id": "2",
+      "id": 2,
       "username": "stake1",
       "password": "stake123",
       "role": "stakeholder",
@@ -31,7 +31,7 @@
       "department": "IT",
       "dateJoined": "2026-08-16T19:27:07.133Z",
       "status": "active",
-      "id": "PfqskkinzKs"
+      "id": 3
     },
     {
       "username": "rohit",
@@ -42,7 +42,18 @@
       "department": "IT",
       "dateJoined": "2026-08-17T03:57:57.040Z",
       "status": "active",
-      "id": "KoIn9DsBcDo"
+      "id": 4
+    },
+    {
+      "username": "vineet",
+      "password": "123qwe",
+      "role": "employee",
+      "fullName": "Vineet",
+      "email": "vineet@test.com",
+      "department": "Service",
+      "dateJoined": "2026-08-17T07:49:06.085Z",
+      "status": "active",
+      "id": 5
     }
   ],
   "machines": [
@@ -57,7 +68,7 @@
         "speed": 400,
         "printColors": 8
       },
-      "id": "1"
+      "id": 1
     },
     {
       "name": "VistaFlex",
@@ -70,7 +81,7 @@
         "speed": 450,
         "printColors": 5
       },
-      "id": "2"
+      "id": 2
     },
     {
       "name": "Novoflex",
@@ -83,7 +94,7 @@
         "speed": 450,
         "printColors": 2
       },
-      "id": "3"
+      "id": 3
     },
     {
       "name": "Miraflex",
@@ -96,7 +107,7 @@
         "speed": 600,
         "printColors": 8
       },
-      "id": "4"
+      "id": 4
     },
     {
       "name": "HELIOSTAR II A",
@@ -109,7 +120,7 @@
         "speed": 500,
         "printColors": 14
       },
-      "id": "5"
+      "id": 5
     },
     {
       "name": "FLEXA II",
@@ -122,7 +133,7 @@
         "speed": 350,
         "printColors": 8
       },
-      "id": "6"
+      "id": 6
     },
     {
       "name": "VAREX II",
@@ -135,7 +146,7 @@
         "speed": 500,
         "printColors": 9
       },
-      "id": "7"
+      "id": 7
     },
     {
       "name": "OPTIMEX II",
@@ -148,20 +159,20 @@
         "speed": 600,
         "printColors": 5
       },
-      "id": "8"
+      "id": 8
     },
     {
       "name": "FILMEX II Stretch",
       "category": "Extrusion",
       "launchYear": 1998,
-      "status": "active",
+      "status": "discontinued",
       "unitPrice": 300000,
       "specs": {
         "width": 5,
         "speed": 800,
         "printColors": 7
       },
-      "id": "9"
+      "id": 9
     },
     {
       "name": "AM 8715 CL",
@@ -174,7 +185,7 @@
         "speed": 500,
         "printColors": 6
       },
-      "id": "10"
+      "id": 10
     },
     {
       "name": "AM 8715 DP",
@@ -188,18 +199,62 @@
         "printColors": 4
       },
       "id": 11
+    },
+    {
+      "name": "Jiostar",
+      "category": "Flexopress",
+      "launchYear": 2005,
+      "status": "active",
+      "unitPrice": 500000,
+      "specs": {
+        "width": 400,
+        "speed": 600,
+        "printColors": 9
+      },
+      "id": 12
+    },
+    {
+      "name": "LittleStar 2",
+      "category": "Flexo press",
+      "launchYear": 2004,
+      "status": "active",
+      "unitPrice": 4000000,
+      "specs": {
+        "width": 50,
+        "speed": 700,
+        "printColors": 8
+      },
+      "id": 13
+    },
+    {
+      "name": "Betaflex",
+      "category": "Flexo Printing",
+      "launchYear": 2003,
+      "status": "active",
+      "unitPrice": 4000000,
+      "specs": {
+        "width": 340,
+        "speed": 500,
+        "printColors": 6
+      },
+      "id": 14
     }
   ],
   "salesRecords": [
-    {
-      "id": "1",
-      "machineId": 1,
-      "region": "North",
-      "quantitySold": 3,
-      "revenue": 1500000,
-      "saleDate": "2025-06-01",
-      "dealerName": "PackTech Distributors"
-    }
+  { "id": 1, "machineId": 1, "region": "North", "quantitySold": 3, "revenue": 1500000, "saleDate": "2025-06-01", "dealerName": "PackTech Distributors" },
+  { "id": 2, "machineId": 2, "region": "south", "quantitySold": 1, "revenue": 2000000, "saleDate": "2025-03-14", "dealerName": "apex Packaging" },
+  { "id": 3, "machineId": 3, "region": "East", "quantitySold": 5, "revenue": 1500000, "saleDate": "2025-07-22", "dealerName": "Vishal Traders" },
+  { "id": 4, "machineId": 4, "region": "West", "quantitySold": 2, "revenue": 800000, "saleDate": "2025-01-10", "dealerName": "Zenith Print Supplies" },
+  { "id": 5, "machineId": 5, "region": "North", "quantitySold": 1, "revenue": 300000, "saleDate": "2025-09-05", "dealerName": "Bharat Machine Co." },
+  { "id": 6, "machineId": 6, "region": "east", "quantitySold": 4, "revenue": 800000, "saleDate": "2025-04-18", "dealerName": "delta Distributors" },
+  { "id": 7, "machineId": 7, "region": "South", "quantitySold": 2, "revenue": 800000, "saleDate": "2025-11-02", "dealerName": "Nova Traders" },
+  { "id": 8, "machineId": 8, "region": "West", "quantitySold": 3, "revenue": 900000, "saleDate": "2025-02-28", "dealerName": "Om Packaging Solutions" },
+  { "id": 9, "machineId": 9, "region": "North", "quantitySold": 6, "revenue": 1800000, "saleDate": "2025-08-13", "dealerName": "Everest Supplies" },
+  { "id": 10, "machineId": 10, "region": "East", "quantitySold": 1, "revenue": 300000, "saleDate": "2025-05-30", "dealerName": "Prime Dealers Ltd." },
+  { "id": 11, "machineId": 11, "region": "South", "quantitySold": 2, "revenue": 800000, "saleDate": "2025-10-07", "dealerName": "Global Print Machines" },
+  { "id": 12, "machineId": 12, "region": "West", "quantitySold": 1, "revenue": 500000, "saleDate": "2025-12-19", "dealerName": "Anand Traders" },
+  { "id": 13, "machineId": 13, "region": "North", "quantitySold": 3, "revenue": 12000000, "saleDate": "2025-06-25", "dealerName": "Suraj Machine Works" },
+  { "id": 14, "machineId": 14, "region": "East", "quantitySold": 2, "revenue": 8000000, "saleDate": "2025-07-09", "dealerName": "Metro Packaging Co." }
   ],
   "$schema": "./node_modules/json-server/schema.json"
 }

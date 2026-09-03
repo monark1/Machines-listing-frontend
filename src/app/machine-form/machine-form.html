@@ -1,79 +1,79 @@
-<div class="container mt-4" style="max-width: 700px;">
-  <h2 class="mb-4">{{ isEditMode ? 'Edit Machine' : 'Add Machine' }}</h2>
+<div class="page-container">
+  <h2 class="form-title">{{ isEditMode ? 'Edit Machine' : 'Add Machine' }}</h2>
 
   <form [formGroup]="machineForm" (ngSubmit)="onSubmit()">
 
-    <div class="mb-3">
-      <label class="form-label">Name</label>
-      <input type="text" class="form-control" formControlName="name" />
+    <div class="form-field">
+      <label>Name</label>
+      <input type="text" formControlName="name" />
       @if (machineForm.get('name')?.touched && machineForm.get('name')?.invalid) {
-        <div class="text-danger small mt-1">Name is required (min 2 characters).</div>
+        <div class="field-error">Name is required (min 2 characters).</div>
       }
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Category</label>
-      <input type="text" class="form-control" formControlName="category" placeholder="e.g. Flexo Press" />
+    <div class="form-field">
+      <label>Category</label>
+      <input type="text" formControlName="category" placeholder="e.g. Flexo Press" />
       @if (machineForm.get('category')?.touched && machineForm.get('category')?.invalid) {
-        <div class="text-danger small mt-1">Category is required.</div>
+        <div class="field-error">Category is required.</div>
       }
     </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label">Launch Year</label>
-        <input type="number" class="form-control" formControlName="launchYear" />
+    <div class="form-row">
+      <div class="form-field">
+        <label>Launch Year</label>
+        <input type="number" formControlName="launchYear" />
         @if (machineForm.get('launchYear')?.touched && machineForm.get('launchYear')?.invalid) {
-          <div class="text-danger small mt-1">Enter a year between 1990 and today.</div>
+          <div class="field-error">Enter a year between 1990 and today.</div>
         }
       </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label">Status</label>
-        <select class="form-select" formControlName="status">
+      <div class="form-field">
+        <label>Status</label>
+        <select formControlName="status">
           <option value="active">Active</option>
           <option value="discontinued">Discontinued</option>
         </select>
       </div>
     </div>
 
-    <fieldset class="border rounded p-3 mb-3" formGroupName="specs">
-      <legend class="fs-6 text-muted px-2 w-auto">Specs</legend>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Width (mm)</label>
-          <input type="number" class="form-control" formControlName="width" />
+    <fieldset class="specs-fieldset" formGroupName="specs">
+      <legend class="specs-legend">Specs</legend>
+      <div class="form-row-3">
+        <div class="form-field">
+          <label>Width (mm)</label>
+          <input type="number" formControlName="width" />
           @if (machineForm.get('specs.width')?.touched && machineForm.get('specs.width')?.invalid) {
-            <div class="text-danger small mt-1">Width is required.</div>
+            <div class="field-error">Width is required.</div>
           }
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Speed (m/min)</label>
-          <input type="number" class="form-control" formControlName="speed" />
+        <div class="form-field">
+          <label>Speed (m/min)</label>
+          <input type="number" formControlName="speed" />
           @if (machineForm.get('specs.speed')?.touched && machineForm.get('specs.speed')?.invalid) {
-            <div class="text-danger small mt-1">Speed is required.</div>
+            <div class="field-error">Speed is required.</div>
           }
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Print Colors</label>
-          <input type="number" class="form-control" formControlName="printColors" />
+        <div class="form-field">
+          <label>Print Colors</label>
+          <input type="number" formControlName="printColors" />
           @if (machineForm.get('specs.printColors')?.touched && machineForm.get('specs.printColors')?.invalid) {
-            <div class="text-danger small mt-1">Enter at least 1 print color.</div>
+            <div class="field-error">Enter at least 1 print color.</div>
           }
         </div>
       </div>
     </fieldset>
 
-    <div class="mb-4">
-      <label class="form-label">Unit Price (₹)</label>
-      <input type="number" class="form-control" formControlName="unitPrice" />
+    <div class="form-field">
+      <label>Unit Price (₹)</label>
+      <input type="number" formControlName="unitPrice" />
       @if (machineForm.get('unitPrice')?.touched && machineForm.get('unitPrice')?.invalid) {
-        <div class="text-danger small mt-1">Unit price must be greater than 0.</div>
+        <div class="field-error">Unit price must be greater than 0.</div>
       }
     </div>
 
-    <div class="d-flex gap-2">
-      <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+    <div class="button-group form-actions">
+      <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
         {{ isSubmitting() ? 'Saving...' : 'Save' }}
       </button>
     </div>

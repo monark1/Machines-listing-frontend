@@ -7,3 +7,4 @@ export interface SalesRecord {
   saleDate: string;
   dealerName: string;
 }
+export type SalesDraft = Omit<SalesRecord, 'id'>;

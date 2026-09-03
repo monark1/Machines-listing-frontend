@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { NotificationService } from '../services/notification.service';
 import { MachineDraft } from '../models/machine.model';
 

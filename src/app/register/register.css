@@ -1,0 +1,23 @@
+.register-card {
+  max-width: 480px;
+  width: 100%;
+}
+
+.register-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #2d3436;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 0;
+  color: #636e72;
+  font-size: 0.9rem;
+}
+
+.register-footer button {
+  margin-left: 4px;
+}
