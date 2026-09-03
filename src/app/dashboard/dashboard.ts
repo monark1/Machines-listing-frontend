@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { SalesService } from '../services/sales.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';

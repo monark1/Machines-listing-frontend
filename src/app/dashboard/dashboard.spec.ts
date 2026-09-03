@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { DashboardComponent } from './dashboard';
 import { AuthService } from '../services/auth.service';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { SalesService } from '../services/sales.service';
 import { UserService } from '../services/user.service';
 import { Machine } from '../models/machine.model';

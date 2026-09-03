@@ -4,7 +4,7 @@ import { signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { MachineListComponent } from './machine-list';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { AuthService } from '../services/auth.service';
 import { Machine } from '../models/machine.model';
 

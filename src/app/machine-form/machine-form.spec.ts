@@ -3,7 +3,7 @@ import { vi, describe, it, expect } from 'vitest';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MachineFormComponent } from './machine-form';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { NotificationService } from '../services/notification.service';
 import { Machine, MachineDraft } from '../models/machine.model';
 

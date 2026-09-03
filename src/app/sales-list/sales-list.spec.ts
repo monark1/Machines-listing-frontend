@@ -3,7 +3,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { signal } from '@angular/core';
 import { SalesListComponent } from './sales-list';
 import { SalesService } from '../services/sales.service';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { SalesRecord } from '../models/sales-record.model';
 
 

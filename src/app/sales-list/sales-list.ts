@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SalesService } from '../services/sales.service';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import {jsPDF} from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
 import { SalesRecord } from '../models/sales-record.model';

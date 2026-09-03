@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MachineService } from '../services/machine.services';
+import { MachineService } from '../services/machine.service';
 import { AuthService } from '../services/auth.service';
 import { Machine } from '../models/machine.model';
 import {jsPDF} from 'jspdf';

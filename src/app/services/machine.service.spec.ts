@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { MachineService } from './machine.services';
+import { MachineService } from './machine.service';
 import { Machine, MachineDraft } from '../models/machine.model';
 
 describe('MachineService', () => {
