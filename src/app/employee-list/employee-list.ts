@@ -33,7 +33,7 @@ export class EmployeeListComponent {
     if (term) {
       result = result.filter(u => 
         u.fullName.toLowerCase().includes(term) || u.email.toLowerCase().includes(term) ||
-        u.department.toLowerCase().includes(term) || u.status.toLowerCase().includes(term)
+        u.department.toLowerCase().includes(term) || u.status.toLowerCase().includes(term) || u.dateJoined.includes(term)
       );
     }
 

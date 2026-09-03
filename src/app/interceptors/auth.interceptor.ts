@@ -16,7 +16,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     } else {
       auth.logout();
     }
-    return throwError(() => new Error('Session expired'));
   }
 
   if (accessToken) {
