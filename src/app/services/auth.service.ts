@@ -6,6 +6,8 @@ import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { SessionTimerService } from './session-timer.service';
 import { User } from '../models/user.model';
+import { HttpContext } from '@angular/common/http';
+import { EXPIRY_CHECK } from '../interceptors/http-context-tokens';
 
 const ACCESS_TOKEN_LIFETIME_MS = 15 * 60 * 1000;
 const REFRESH_TOKEN_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
@@ -41,8 +43,10 @@ export class AuthService {
   reAuthenticate(password: string): Observable<boolean> {
     const username = this.getUsernameFromToken();
     if (!username) return of(false);
-
-    return this.userService.findByUsername(username).pipe(
+ 
+    const context = new HttpContext().set(EXPIRY_CHECK, true);
+ 
+    return this.userService.findByUsername(username, context).pipe(
       map(users => {
         const match = users.find(u => u.password === password);
         if (!match) return false;
