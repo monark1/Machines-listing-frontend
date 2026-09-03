@@ -14,10 +14,12 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should always render the notification toast and reauth overlay', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, task');
+
+    expect(compiled.querySelector('app-notification-toast')).toBeTruthy();
+    expect(compiled.querySelector('app-reauth-overlay')).toBeTruthy();
   });
 });
