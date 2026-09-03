@@ -2,10 +2,11 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Machine, MachineDraft } from '../models/machine.model';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class MachineService {
-  private readonly API_URL = 'http://localhost:3000/machines';
+  private readonly API_URL = `${API_BASE_URL}/machines`;
 
   machines = signal<Machine[]>([]);
 
