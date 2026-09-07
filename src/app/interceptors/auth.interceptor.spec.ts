@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { authInterceptor } from './auth.interceptor';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';

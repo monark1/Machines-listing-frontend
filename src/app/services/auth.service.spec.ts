@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -248,7 +248,7 @@ describe('AuthService', () => {
     });
 
     it('should log out when the refresh token is also invalid on expiry', () => {
-      const service = setup({
+      setup({
         decodePayload: vi.fn().mockReturnValue({ sub: 'x', exp: Math.floor(Date.now() / 1000) + 300 }),
         isTokenValid: vi.fn().mockReturnValue(false)
       });
