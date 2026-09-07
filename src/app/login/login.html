@@ -4,16 +4,16 @@
     <h2 class="login-title">Login</h2>
 
     <div class="form-field">
-      <label>Username <span class="required-asterisk">*</span></label>
-      <input type="text" formControlName="username" />
+      <label for="username">Username <span class="required-asterisk">*</span></label>
+      <input id="username" type="text" formControlName="username" />
       @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
         <p class="field-error">Username is required.</p>
       }
     </div>
 
     <div class="form-field">
-      <label>Password <span class="required-asterisk">*</span></label>
-      <input type="password" formControlName="password" />
+      <label for="password">Password <span class="required-asterisk">*</span></label>
+      <input id="password" type="password" formControlName="password" />
       @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
         <p class="field-error">Password is required.</p>
       }
