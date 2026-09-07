@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
@@ -12,7 +12,7 @@ import { NotificationService } from '../services/notification.service';
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css'
 })
-export class EmployeeListComponent {
+export class EmployeeListComponent implements OnInit{
   private userService = inject(UserService);
   private notification = inject(NotificationService);
 

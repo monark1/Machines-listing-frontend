@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SalesService } from '../services/sales.service';
@@ -14,7 +14,7 @@ import { SalesRecord } from '../models/sales-record.model';
   templateUrl: './sales-list.html',
   styleUrl: './sales-list.css'
 })
-export class SalesListComponent {
+export class SalesListComponent implements OnInit {
   salesService = inject(SalesService);
   private machineService = inject(MachineService);
 
