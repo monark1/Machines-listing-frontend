@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { User } from '../models/user.model';
@@ -8,7 +8,7 @@ import { API_BASE_URL } from '../config/api.config';
 export class UserService {
   private readonly API_URL = `${API_BASE_URL}/users`;
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   findByUsername(username: string, context?: HttpContext): Observable<User[]> {
     return this.http.get<User[]>(`${this.API_URL}?username=${username}`, { context });

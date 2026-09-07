@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SalesRecord } from '../models/sales-record.model';
 import { API_BASE_URL } from '../config/api.config';
@@ -10,7 +10,7 @@ export class SalesService {
   sales = signal<SalesRecord[]>([]);
   isLoading = signal(false);
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   loadSales(): void {
     this.isLoading.set(true);
