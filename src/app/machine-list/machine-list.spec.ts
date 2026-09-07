@@ -195,7 +195,7 @@ describe('MachineListComponent', () => {
       const { component } = setup();
       
       const spyCreateUrl = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-machine-url');
-      const spyRevokeUrl = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+      const spyRevokeUrl = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined );
       const spyClick = vi.fn();
       
       vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {

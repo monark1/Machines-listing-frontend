@@ -93,17 +93,17 @@ describe('authInterceptor', () => {
     });
 
     it('should trigger reAuthNeeded', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(authServiceMock.reAuthNeeded.set).toHaveBeenCalledWith(true);
     });
 
     it('should NOT call next() — the request must be blocked, not forwarded', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(nextMock).not.toHaveBeenCalled();
     });
 
     it('should not call logout in this branch', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(authServiceMock.logout).not.toHaveBeenCalled();
     });
   });
@@ -116,17 +116,17 @@ describe('authInterceptor', () => {
     });
 
     it('should call logout', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(authServiceMock.logout).toHaveBeenCalledTimes(1);
     });
 
     it('should NOT call next()', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(nextMock).not.toHaveBeenCalled();
     });
 
     it('should not trigger reAuthNeeded in this branch', () => {
-      runInterceptor().subscribe({ error: () => {} });
+      runInterceptor().subscribe({ error: () => undefined });
       expect(authServiceMock.reAuthNeeded.set).not.toHaveBeenCalled();
     });
   });
