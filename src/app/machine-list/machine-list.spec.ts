@@ -16,15 +16,15 @@ const pdfSpies = {
 
 vi.mock('jspdf', () => {
   class MockjsPDF {
-    text(...args: any[]) { pdfSpies.text(...args); }
-    save(...args: any[]) { pdfSpies.save(...args); }
+    text(...args: unknown[]) { pdfSpies.text(...args); }
+    save(...args: unknown[]) { pdfSpies.save(...args); }
   }
   return { jsPDF: MockjsPDF };
 });
 
 vi.mock('jspdf-autotable', () => {
   return {
-    autoTable: (...args: any[]) => pdfSpies.autoTable(...args)
+    autoTable: (...args: unknown[]) => pdfSpies.autoTable(...args)
   };
 });
 
@@ -32,9 +32,18 @@ describe('MachineListComponent', () => {
   let machinesSignal: ReturnType<typeof signal<Machine[]>>;
   let isLoadingSignal: ReturnType<typeof signal<boolean>>;
 
-  let machineServiceMock: any;
-  let authServiceMock: any;
-  let routerMock: any;
+  let machineServiceMock: {
+    machines: ReturnType<typeof signal<Machine[]>>;
+    isLoading: ReturnType<typeof signal<boolean>>;
+    loadMachines: ReturnType<typeof vi.fn>;
+    deleteMachine: ReturnType<typeof vi.fn>;
+  };
+  let authServiceMock: {
+    getRole: ReturnType<typeof vi.fn>;
+  };
+  let routerMock: {
+    navigate: ReturnType<typeof vi.fn>;
+  };
 
     const dummyMachines: Machine[] = [
     { id: 1, name: 'Alphaflex', category: 'Flexo Press', launchYear: 2024, status: 'active', specs: { width: 120, speed: 60, printColors: 4 }, unitPrice: 15000 },
@@ -193,16 +202,18 @@ describe('MachineListComponent', () => {
 
     it('should structure local window element downloads for exporting raw CSV lines', () => {
       const { component } = setup();
-      
+
       const spyCreateUrl = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-machine-url');
-      const spyRevokeUrl = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined );
+      const spyRevokeUrl = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
       const spyClick = vi.fn();
-      
-      vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
+
+      vi.spyOn(document, 'createElement').mockImplementation((tagName: string): HTMLElement => {
         if (tagName === 'a') {
-          return { href: '', download: '', click: spyClick } as any;
+          const anchor = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+          anchor.click = spyClick;
+          return anchor;
         }
-        return {} as any;
+        return document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
       });
 
       component.exportToCsv();

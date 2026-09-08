@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { authGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 
 describe('authGuard', () => {
-  let authServiceMock: any;
+  let authServiceMock: {
+    isLoggedIn: ReturnType<typeof vi.fn>;
+    isRefreshTokenValid: ReturnType<typeof vi.fn>;
+    reAuthNeeded: { set: ReturnType<typeof vi.fn> };
+    logout: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
     authServiceMock = {
@@ -20,7 +26,9 @@ describe('authGuard', () => {
   });
 
   function runGuard() {
-    return TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
+    return TestBed.runInInjectionContext(() =>
+      authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot),
+    );
   }
 
   describe('when the access token is still valid', () => {

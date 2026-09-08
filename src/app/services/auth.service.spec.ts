@@ -9,10 +9,19 @@ import { SessionTimerService } from './session-timer.service';
 import { User } from '../models/user.model';
 
 describe('AuthService', () => {
-  let userServiceMock: any;
-  let tokenServiceMock: any;
-  let sessionTimerMock: any;
-  let routerMock: any;
+  let userServiceMock: { findByUsername: ReturnType<typeof vi.fn> };
+  let tokenServiceMock: {
+    getAccessToken: ReturnType<typeof vi.fn>;
+    getRefreshToken: ReturnType<typeof vi.fn>;
+    setAccessToken: ReturnType<typeof vi.fn>;
+    setRefreshToken: ReturnType<typeof vi.fn>;
+    clearTokens: ReturnType<typeof vi.fn>;
+    decodePayload: ReturnType<typeof vi.fn>;
+    isTokenValid: ReturnType<typeof vi.fn>;
+    issueTokensFor: ReturnType<typeof vi.fn>;
+  };
+  let sessionTimerMock: { start: ReturnType<typeof vi.fn>; clear: ReturnType<typeof vi.fn> };
+  let routerMock: { navigate: ReturnType<typeof vi.fn> };
 
   const mockUser: User = {
     id: 1,

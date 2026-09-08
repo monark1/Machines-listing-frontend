@@ -7,8 +7,13 @@ import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 
 describe('authInterceptor', () => {
-  let authServiceMock: any;
-  let tokenServiceMock: any;
+  let authServiceMock: {
+    isLoggedIn: ReturnType<typeof vi.fn>;
+    isRefreshTokenValid: ReturnType<typeof vi.fn>;
+    reAuthNeeded: { set: ReturnType<typeof vi.fn> };
+    logout: ReturnType<typeof vi.fn>;
+  };
+  let tokenServiceMock: { getAccessToken: ReturnType<typeof vi.fn> };
   let nextMock: ReturnType<typeof vi.fn>;
 
   const req = new HttpRequest('GET', '/api/machines');

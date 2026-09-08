@@ -7,8 +7,8 @@ import { NotificationService } from '../services/notification.service';
 import { User } from '../models/user.model';
 
 describe('EmployeeListComponent', () => {
-  let userServiceMock: any;
-  let notificationMock: any;
+  let userServiceMock: { getAllUsers: ReturnType<typeof vi.fn>; updateUserStatus: ReturnType<typeof vi.fn> };
+  let notificationMock: { success: ReturnType<typeof vi.fn>; error: ReturnType<typeof vi.fn>};
 
   const dummyUsers: User[] = [
     { id: 1, username: 'monark', password: 'x', role: 'employee', fullName: 'Monark Bhardwaj', email: 'monark@test.com', department: 'IT', dateJoined: '2025-01-01', status: 'active' },

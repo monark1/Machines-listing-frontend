@@ -13,27 +13,43 @@ const pdfSpies = {
   autoTable: vi.fn()
 };
 
+interface Machine {
+  id: number;
+  name: string;
+}
+
+interface SalesServiceMock {
+  sales: ReturnType<typeof signal<SalesRecord[]>>;
+  isLoading: ReturnType<typeof signal<boolean>>;
+  loadSales: ReturnType<typeof vi.fn>;
+}
+
+interface MachineServiceMock {
+  machines: ReturnType<typeof signal<Machine[]>>;
+  loadMachines: ReturnType<typeof vi.fn>;
+}
+
 vi.mock('jspdf', () => {
   class MockjsPDF {
-    text(...args: any[]) { pdfSpies.text(...args); }
-    save(...args: any[]) { pdfSpies.save(...args); }
+    text(...args: unknown[]) { pdfSpies.text(...args); }
+    save(...args: unknown[]) { pdfSpies.save(...args); }
   }
   return { jsPDF: MockjsPDF };
 });
 
 vi.mock('jspdf-autotable', () => {
   return {
-    autoTable: (...args: any[]) => pdfSpies.autoTable(...args)
+    autoTable: (...args: unknown[]) => pdfSpies.autoTable(...args)
   };
 });
 
 describe('SalesListComponent', () => {
   let salesSignal: ReturnType<typeof signal<SalesRecord[]>>;
   let isLoadingSignal: ReturnType<typeof signal<boolean>>;
-  let machinesSignal: ReturnType<typeof signal<{ id: number; name: string }[]>>;
+  let machinesSignal: ReturnType<typeof signal<Machine[]>>;
 
-  let salesServiceMock: any;
-  let machineServiceMock: any;
+  let salesServiceMock: SalesServiceMock;
+  let machineServiceMock: MachineServiceMock;
 
 
   const dummyMachines = [
@@ -55,7 +71,7 @@ describe('SalesListComponent', () => {
 
     salesSignal = signal<SalesRecord[]>([]);
     isLoadingSignal = signal<boolean>(false);
-    machinesSignal = signal<{ id: number; name: string }[]>([]);
+    machinesSignal = signal<Machine[]>([]);
 
     salesServiceMock = {
       sales: salesSignal,
@@ -182,11 +198,13 @@ describe('SalesListComponent', () => {
       const spyRevokeUrl = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined );
       const spyClick = vi.fn();
       
-      vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
+      vi.spyOn(document, 'createElement').mockImplementation((tagName: string): HTMLElement => {
         if (tagName === 'a') {
-          return { href: '', download: '', click: spyClick } as any;
+          const anchor = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+          anchor.click = spyClick;
+          return anchor;
         }
-        return {} as any;
+        return document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
       });
 
       component.exportToCsv();
