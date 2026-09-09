@@ -5,24 +5,24 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
       <div class="form-field">
-        <label>Full Name <span class="required-asterisk">*</span></label>
-        <input type="text" formControlName="fullName" />
+        <label for="name">Full Name <span class="required-asterisk">*</span></label>
+        <input id="name" type="text" formControlName="fullName" />
         @if (registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid) {
           <div class="field-error">Full name is required and only Alphabetic chars are allowed</div>
         }
       </div>
 
       <div class="form-field">
-        <label>Email <span class="required-asterisk">*</span></label>
-        <input type="email" formControlName="email" />
+        <label for="email">Email <span class="required-asterisk">*</span></label>
+        <input id="email" type="email" formControlName="email" />
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
           <div class="field-error">Enter a valid email.</div>
         }
       </div>
 
       <div class="form-field">
-        <label>Username <span class="required-asterisk">*</span></label>
-        <input type="text" formControlName="username" />
+        <label for="username">Username <span class="required-asterisk">*</span></label>
+        <input id="username" type="text" formControlName="username" />
         @if (registerForm.get('username')?.pending) {
           <div class="text-secondary">Checking availability...</div>
         }
@@ -38,8 +38,8 @@
       </div>
 
       <div class="form-field">
-        <label>Department <span class="required-asterisk">*</span></label>
-        <select formControlName="department">
+        <label for="department">Department <span class="required-asterisk">*</span></label>
+        <select id="department" formControlName="department">
           <option value="" disabled selected>Select a department</option>
           <option value="IT">IT</option>
           <option value="Service">Service</option>
@@ -54,16 +54,16 @@
       </div>
 
       <div class="form-field">
-        <label>Password <span class="required-asterisk">*</span></label>
-        <input type="password" formControlName="password" />
+        <label for="password">Password <span class="required-asterisk">*</span></label>
+        <input id="password" type="password" formControlName="password" />
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
           <div class="field-error">Password must be at least 6 characters and Must contain at least one uppercase letter, lowercase letter & special Character.</div>
         }
       </div>
 
       <div class="form-field">
-        <label>Confirm Password <span class="required-asterisk">*</span></label>
-        <input type="password" formControlName="confirmPassword" />
+        <label for="confirmPassword">Confirm Password <span class="required-asterisk">*</span></label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" />
         @if (registerForm.get('confirmPassword')?.touched && registerForm.errors?.['passwordMismatch']) {
           <div class="field-error">Passwords do not match.</div>
         }

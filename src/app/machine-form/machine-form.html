@@ -4,16 +4,16 @@
   <form [formGroup]="machineForm" (ngSubmit)="onSubmit()">
 
     <div class="form-field">
-      <label>Name</label>
-      <input type="text" formControlName="name" />
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
       @if (machineForm.get('name')?.touched && machineForm.get('name')?.invalid) {
         <div class="field-error">Name is required (min 2 characters).</div>
       }
     </div>
 
     <div class="form-field">
-      <label>Category</label>
-      <input type="text" formControlName="category" placeholder="e.g. Flexo Press" />
+      <label for="category">Category</label>
+      <input id="category" type="text" formControlName="category" placeholder="e.g. Flexo Press" />
       @if (machineForm.get('category')?.touched && machineForm.get('category')?.invalid) {
         <div class="field-error">Category is required.</div>
       }
@@ -21,15 +21,15 @@
 
     <div class="form-row">
       <div class="form-field">
-        <label>Launch Year</label>
-        <input type="number" formControlName="launchYear" />
+        <label for="launchYear">Launch Year</label>
+        <input id="launchYear" type="number" formControlName="launchYear" />
         @if (machineForm.get('launchYear')?.touched && machineForm.get('launchYear')?.invalid) {
           <div class="field-error">Enter a year between 1990 and today.</div>
         }
       </div>
       <div class="form-field">
-        <label>Status</label>
-        <select formControlName="status">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
           <option value="active">Active</option>
           <option value="discontinued">Discontinued</option>
         </select>
@@ -40,22 +40,22 @@
       <legend class="specs-legend">Specs</legend>
       <div class="form-row-3">
         <div class="form-field">
-          <label>Width (mm)</label>
-          <input type="number" formControlName="width" />
+          <label for="width">Width (mm)</label>
+          <input id="width" type="number" formControlName="width" />
           @if (machineForm.get('specs.width')?.touched && machineForm.get('specs.width')?.invalid) {
             <div class="field-error">Width is required.</div>
           }
         </div>
         <div class="form-field">
-          <label>Speed (m/min)</label>
-          <input type="number" formControlName="speed" />
+          <label for="speed">Speed (m/min)</label>
+          <input id="speed" type="number" formControlName="speed" />
           @if (machineForm.get('specs.speed')?.touched && machineForm.get('specs.speed')?.invalid) {
             <div class="field-error">Speed is required.</div>
           }
         </div>
         <div class="form-field">
-          <label>Print Colors</label>
-          <input type="number" formControlName="printColors" />
+          <label for="printColors">Print Colors</label>
+          <input id="printColors" type="number" formControlName="printColors" />
           @if (machineForm.get('specs.printColors')?.touched && machineForm.get('specs.printColors')?.invalid) {
             <div class="field-error">Enter at least 1 print color.</div>
           }
@@ -64,8 +64,8 @@
     </fieldset>
 
     <div class="form-field">
-      <label>Unit Price (₹)</label>
-      <input type="number" formControlName="unitPrice" />
+      <label for="unitPrice">Unit Price (₹)</label>
+      <input id="unitPrice" type="number" formControlName="unitPrice" />
       @if (machineForm.get('unitPrice')?.touched && machineForm.get('unitPrice')?.invalid) {
         <div class="field-error">Unit price must be greater than 0.</div>
       }

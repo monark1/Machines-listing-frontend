@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Machine, MachineDraft } from '../models/machine.model';
@@ -10,8 +10,7 @@ export class MachineService {
 
   machines = signal<Machine[]>([]);
 
-  constructor(private http: HttpClient) { }
-
+  private http = inject(HttpClient);
 
   getMachine(id: number): Observable<Machine> {
     return this.http.get<Machine>(`${this.API_URL}/${id}`);

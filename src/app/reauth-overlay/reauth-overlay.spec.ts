@@ -6,7 +6,7 @@ import { ReauthOverlayComponent } from './reauth-overlay';
 import { AuthService } from '../services/auth.service';
 
 describe('ReauthOverlayComponent', () => {
-  let authServiceMock: any;
+  let authServiceMock: Partial<AuthService>;
   let reAuthSubject: Subject<boolean>;
   
   beforeEach(async () => {

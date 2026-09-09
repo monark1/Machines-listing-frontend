@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -9,10 +9,19 @@ import { SessionTimerService } from './session-timer.service';
 import { User } from '../models/user.model';
 
 describe('AuthService', () => {
-  let userServiceMock: any;
-  let tokenServiceMock: any;
-  let sessionTimerMock: any;
-  let routerMock: any;
+  let userServiceMock: { findByUsername: ReturnType<typeof vi.fn> };
+  let tokenServiceMock: {
+    getAccessToken: ReturnType<typeof vi.fn>;
+    getRefreshToken: ReturnType<typeof vi.fn>;
+    setAccessToken: ReturnType<typeof vi.fn>;
+    setRefreshToken: ReturnType<typeof vi.fn>;
+    clearTokens: ReturnType<typeof vi.fn>;
+    decodePayload: ReturnType<typeof vi.fn>;
+    isTokenValid: ReturnType<typeof vi.fn>;
+    issueTokensFor: ReturnType<typeof vi.fn>;
+  };
+  let sessionTimerMock: { start: ReturnType<typeof vi.fn>; clear: ReturnType<typeof vi.fn> };
+  let routerMock: { navigate: ReturnType<typeof vi.fn> };
 
   const mockUser: User = {
     id: 1,
@@ -248,7 +257,7 @@ describe('AuthService', () => {
     });
 
     it('should log out when the refresh token is also invalid on expiry', () => {
-      const service = setup({
+      setup({
         decodePayload: vi.fn().mockReturnValue({ sub: 'x', exp: Math.floor(Date.now() / 1000) + 300 }),
         isTokenValid: vi.fn().mockReturnValue(false)
       });

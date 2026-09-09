@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MachineService } from '../services/machine.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './machine-list.html',
   styleUrl: './machine-list.css'
 })
-export class MachineListComponent {
+export class MachineListComponent implements OnInit {
   machineService = inject(MachineService); 
   private authService = inject(AuthService);
   private router = inject(Router);
