@@ -31,6 +31,7 @@ export class AuthService {
     ).pipe(
       tap(({ accessToken, refreshToken }) => {
         this.tokenService.storeTokens(accessToken, refreshToken);
+        this.isAuthenticated.set(true);
       }),
       map(() => void 0)
     );
