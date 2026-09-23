@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { JwtPayload } from '../models/jwt-payload.model';
-import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class TokenService {
@@ -15,6 +14,11 @@ export class TokenService {
     return localStorage.getItem(this.REFRESH_TOKEN_KEY);
   }
 
+  storeTokens(accessToken: string, refreshToken: string): void {
+    this.setAccessToken(accessToken);
+    this.setRefreshToken(refreshToken);
+  }
+
   setAccessToken(token: string): void {
     localStorage.setItem(this.ACCESS_TOKEN_KEY, token);
   }
@@ -26,14 +30,6 @@ export class TokenService {
   clearTokens(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-  }
-
-  buildToken(payload: JwtPayload): string {
-    const header = { alg: 'none', typ: 'JWT' };
-    const encodedHeader = this.base64UrlEncode(JSON.stringify(header));
-    const encodedPayload = this.base64UrlEncode(JSON.stringify(payload));
-    const signature = this.base64UrlEncode('client-side-only');
-    return `${encodedHeader}.${encodedPayload}.${signature}`;
   }
 
   decodePayload(token: string | null): JwtPayload | null {
@@ -57,32 +53,5 @@ export class TokenService {
     const payload = this.decodePayload(token);
     if (!payload?.exp) return false;
     return payload.exp * 1000 > Date.now();
-  }
-
-  private base64UrlEncode(str: string): string {
-    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
-
-  issueTokensFor(user: User, accessLifetimeMs: number, refreshLifetimeMs: number): { access: string; refresh: string } {
-    const now = Date.now();
-
-    const accessPayload: JwtPayload = {
-      sub: user.username,
-      role: user.role,
-      name: user.fullName,
-      iat: Math.floor(now / 1000),
-      exp: Math.floor((now + accessLifetimeMs) / 1000)
-    };
-
-    const refreshPayload: JwtPayload = {
-      sub: user.username,
-      iat: Math.floor(now / 1000),
-      exp: Math.floor((now + refreshLifetimeMs) / 1000)
-    };
-
-    return {
-      access: this.buildToken(accessPayload),
-      refresh: this.buildToken(refreshPayload)
-    };
   }
 }
