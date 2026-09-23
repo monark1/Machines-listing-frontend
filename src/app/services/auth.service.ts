@@ -1,20 +1,17 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { SessionTimerService } from './session-timer.service';
 import { User } from '../models/user.model';
-import { HttpContext } from '@angular/common/http';
+import { HttpContext, HttpClient } from '@angular/common/http';
 import { EXPIRY_CHECK } from '../interceptors/http-context-tokens';
-
-const ACCESS_TOKEN_LIFETIME_MS = 15 * 60 * 1000;
-const REFRESH_TOKEN_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private userService = inject(UserService);
+  private http = inject(HttpClient);
   private tokenService = inject(TokenService);
   private sessionTimer = inject(SessionTimerService);
   private router = inject(Router);
@@ -27,35 +24,35 @@ export class AuthService {
     this.startSessionTimer();
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.userService.findByUsername(username.toLowerCase()).pipe(
-      map(users => {
-        const match = users.find(u => u.password === password);
-        if (!match) return false;
-        if (match.status === 'inactive') return false;
-        this.issueTokens(match);
-        return true;
+  login(username: string, password: string): Observable<void> {
+    return this.http.post<{ accessToken: string; refreshToken: string }>(
+      `${API_BASE_URL}/auth/login`,
+      { username, password }
+    ).pipe(
+      tap(({ accessToken, refreshToken }) => {
+        this.tokenService.storeTokens(accessToken, refreshToken);
       }),
-      catchError(() => of(false))
+      map(() => void 0)
     );
   }
 
   reAuthenticate(password: string): Observable<boolean> {
     const username = this.getUsernameFromToken();
     if (!username) return of(false);
- 
+
     const context = new HttpContext().set(EXPIRY_CHECK, true);
- 
-    return this.userService.findByUsername(username, context).pipe(
-      map(users => {
-        const match = users.find(u => u.password === password);
-        if (!match) return false;
-        this.issueTokens(match);
-        this.reAuthNeeded.set(false);
-        return true;
-      }),
-      catchError(() => of(false))
-    );
+
+    return this.http.post<{ accessToken: string; refreshToken: string }>(
+      `${API_BASE_URL}/auth/login`,
+      { username, password }, { context }).pipe(
+        map(({ accessToken, refreshToken }) => {
+          this.tokenService.setAccessToken(accessToken);
+          this.tokenService.setRefreshToken(refreshToken);
+          this.reAuthNeeded.set(false);
+          return true;
+        }),
+        catchError(() => of(false))
+      );
   }
 
   logout(): void {
@@ -85,15 +82,6 @@ export class AuthService {
 
   private getUsernameFromToken(): string | null {
     return this.tokenService.decodePayload(this.tokenService.getRefreshToken())?.sub ?? null;
-  }
-
-  private issueTokens(user: User): void {
-    const { access, refresh } = this.tokenService.issueTokensFor(user, ACCESS_TOKEN_LIFETIME_MS, REFRESH_TOKEN_LIFETIME_MS);
-
-    this.tokenService.setAccessToken(access);
-    this.tokenService.setRefreshToken(refresh);
-    this.isAuthenticated.set(true);
-    this.startSessionTimer();
   }
 
   private startSessionTimer(): void {
