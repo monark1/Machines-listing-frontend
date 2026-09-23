@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { User } from '../models/user.model';
 import { API_BASE_URL } from '../config/api.config';
@@ -9,10 +9,6 @@ export class UserService {
   private readonly API_URL = `${API_BASE_URL}/users`;
 
   private http = inject(HttpClient);
-
-  findByUsername(username: string, context?: HttpContext): Observable<User[]> {
-    return this.http.get<User[]>(`${this.API_URL}?username=${username}`, { context });
-  }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.API_URL);
@@ -27,8 +23,8 @@ export class UserService {
   }
 
   isUsernameTaken(username: string): Observable<boolean> {
-    return this.http.get<User[]>(`${this.API_URL}?username=${username}`).pipe(
-      map(users => users.length > 0)
-    );
+    return this.http.get<{ taken: boolean }>(
+      `${this.API_URL}/check-username/${username}`
+    ).pipe(map(res => res.taken));
   }
 }
