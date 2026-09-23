@@ -26,29 +26,31 @@ export class LoginComponent {
   });
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
+  }
 
-    this.isSubmitting.set(true);
-    const { username, password } = this.loginForm.getRawValue();
+  this.isSubmitting.set(true);
+  const { username, password } = this.loginForm.getRawValue();
 
-    this.authService.login(username!, password!).subscribe({
-      next: success => {
-        this.isSubmitting.set(false);
-        if (success) {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.notification.error('Invalid username or password');
-        }
-      },
-      error: () => {
-        this.isSubmitting.set(false);
+  this.authService.login(username!, password!).subscribe({
+    next: () => {
+      this.isSubmitting.set(false);
+      this.router.navigate(['/dashboard']);
+    },
+    error: (err) => {
+      this.isSubmitting.set(false);
+      if (err.status === 401) {
+        this.notification.error('Invalid username or password');
+      } else if (err.status === 403) {
+        this.notification.error('Your account is inactive');
+      } else {
         this.notification.error('Login failed. Please try again.');
       }
-    });
-  }
+    }
+  });
+}
 
   goToRegister(): void {
     this.router.navigate(['/register']);
