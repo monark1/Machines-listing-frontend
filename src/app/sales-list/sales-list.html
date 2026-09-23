@@ -18,7 +18,9 @@
   <table class="data-table">
     <thead>
       <tr>
-        <th>Machine</th>
+        <th class="sortable-header" (click)="toggleSort('machineName')">
+          Machine @if (sortField() === 'machineName') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
+        </th>
         <th class="sortable-header" (click)="toggleSort('region')">
           Region @if (sortField() === 'region') { {{ sortDirection() === 'asc' ? '⇧' : '⇩' }} }
         </th>
@@ -37,7 +39,7 @@
     <tbody>
       @for (sale of pagedSales(); track sale.id) {
       <tr>
-        <td>{{ getMachineName(sale.machineId) }}</td>
+        <td>{{ sale.machineName }}</td>
         <td>{{ sale.region }}</td>
         <td>{{ sale.quantitySold }}</td>
         <td>{{ sale.revenue | currency }}</td>

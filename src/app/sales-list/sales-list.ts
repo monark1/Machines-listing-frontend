@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SalesService } from '../services/sales.service';
-import { MachineService } from '../services/machine.service';
 import {jsPDF} from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
 import { SalesRecord } from '../models/sales-record.model';
@@ -16,10 +15,9 @@ import { SalesRecord } from '../models/sales-record.model';
 })
 export class SalesListComponent implements OnInit {
   salesService = inject(SalesService);
-  private machineService = inject(MachineService);
 
   searchTerm = signal('');
-  sortField = signal<'region' | 'revenue' | 'saleDate' | 'dealerName'>('saleDate');
+  sortField = signal<'machineName' | 'region' | 'revenue' | 'saleDate' | 'dealerName'>('saleDate');
   sortDirection = signal<'asc' | 'desc'>('desc');
   currentPage = signal(1);
   pageSize = 5;
@@ -34,7 +32,7 @@ export class SalesListComponent implements OnInit {
       result = result.filter(s =>
         s.region.toLowerCase().includes(term) || s.dealerName.toLowerCase().includes(term) ||
         s.saleDate.toLowerCase().includes(term) || s.quantitySold.toString().includes(term) ||
-        s.revenue.toString().includes(term) || this.getMachineName(s.machineId).toLowerCase().includes(term)
+        s.revenue.toString().includes(term) || s.machineName.toLowerCase().includes(term)
       );
     }
     return [...result].sort((a, b) => {
@@ -59,11 +57,10 @@ export class SalesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.salesService.loadSales();
-    this.machineService.loadMachines(); 
   }
 
-  getMachineName(machineId: number): string {
-    return this.machineService.machines().find(m => m.id === machineId)?.name ?? 'Unknown';
+  getMachineName(sale: SalesRecord): string {
+    return sale.machineName;
   }
 
   onSearchChange(term: string): void {
@@ -71,7 +68,7 @@ export class SalesListComponent implements OnInit {
     this.currentPage.set(1);
   }
 
-  toggleSort(field: 'region' | 'revenue' | 'saleDate' | 'dealerName'): void {
+  toggleSort(field: 'machineName' | 'region' | 'revenue' | 'saleDate' | 'dealerName'): void {
     if (this.sortField() === field) {
       this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
     } else {
@@ -90,7 +87,7 @@ export class SalesListComponent implements OnInit {
   doc.text('Sales Report', 14, 15);
 
   const columns: { label: string; getValue: (m: SalesRecord) => string | number }[] = [
-      { label: 'Machine', getValue: m => this.getMachineName(m.machineId) },
+      { label: 'Machine', getValue: m => m.machineName },
       { label: 'Region', getValue: m => m.region },
       { label: 'Qty Sold', getValue: m => m.quantitySold },
       { label: 'Revenue', getValue: s => s.revenue },
@@ -111,7 +108,7 @@ exportToCsv(): void {
   const rows = this.filteredSales();
   const header = ['Machine', 'Region', 'Qty Sold', 'Revenue', 'Sale Date', 'Dealer'];
   const csvRows = rows.map(s => [
-    this.getMachineName(s.machineId), s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName
+    s.machineName, s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName
   ].join(','));
   const csvContent = [header.join(','), ...csvRows].join('\n');
 
