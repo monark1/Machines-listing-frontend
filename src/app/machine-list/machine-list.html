@@ -41,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (machine of pagedMachines(); track machine.id) {
+      @for (machine of machineService.machines(); track machine.id) {
       <tr>
         <td>{{ machine.name }}</td>
         <td>{{ machine.category }}</td>
@@ -79,7 +79,7 @@
         <button (click)="goToPage(page)">{{ page }}</button>
       </li>
       }
-      <li class="pagination-item" [class.disabled]="currentPage() === totalPages()">
+      <li class="pagination-item" [class.disabled]="currentPage() === machineService.totalPages()">
         <button (click)="goToPage(currentPage() + 1)">Next</button>
       </li>
     </ul>

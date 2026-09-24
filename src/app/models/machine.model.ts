@@ -12,3 +12,11 @@ export interface Machine {
   unitPrice: number;
 }
 export type MachineDraft = Omit<Machine, 'id'>;
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
