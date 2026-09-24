@@ -37,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (sale of pagedSales(); track sale.id) {
+      @for (sale of salesService.sales(); track sale.id) {
       <tr>
         <td>{{ sale.machineName }}</td>
         <td>{{ sale.region }}</td>
@@ -65,7 +65,7 @@
         <button (click)="goToPage(page)">{{ page }}</button>
       </li>
       }
-      <li class="pagination-item" [class.disabled]="currentPage() === totalPages()">
+      <li class="pagination-item" [class.disabled]="currentPage() === salesService.totalPages()">
         <button (click)="goToPage(currentPage() + 1)">Next</button>
       </li>
     </ul>
