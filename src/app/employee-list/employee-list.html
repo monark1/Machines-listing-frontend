@@ -9,7 +9,7 @@
     (input)="onSearchChange(searchBox.value)"
   />
 
-  @if (isLoading()) {
+  @if (userService.isLoading()) {
     <p class="loading-text">Loading employees...</p>
   } @else {
     <table class="data-table">
@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (emp of employees(); track emp.id) {
+        @for (emp of userService.users(); track emp.id) {
           <tr>
             <td>{{ emp.fullName }}</td>
             <td>{{ emp.email }}</td>

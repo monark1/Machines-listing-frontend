@@ -4,68 +4,53 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { NotificationService } from '../services/notification.service';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './employee-list.html',
-  styleUrl: './employee-list.css'
+  styleUrl: './employee-list.css',
 })
-export class EmployeeListComponent implements OnInit{
-  private userService = inject(UserService);
+export class EmployeeListComponent implements OnInit {
+  userService = inject(UserService);
   private notification = inject(NotificationService);
 
-  allUsers = signal<User[]>([]);
-  isLoading = signal(false);
   searchTerm = signal('');
-
   sortField = signal<keyof User>('fullName');
   sortDirection = signal<'asc' | 'desc'>('asc');
+  currentPage = signal(1);
+  pageSize = 5;
 
-  employees = computed(() => {
-    const term = this.searchTerm().trim().toLowerCase();
-    const field = this.sortField();
-    const dir = this.sortDirection() === 'asc' ? 1 : -1;
+  private searchInput$ = new Subject<string>();
 
-    let result = this.allUsers().filter(u => u.role === 'employee');
-
-    if (term) {
-      result = result.filter(u => 
-        u.fullName.toLowerCase().includes(term) || u.email.toLowerCase().includes(term) ||
-        u.department.toLowerCase().includes(term) || u.status.toLowerCase().includes(term) || u.dateJoined.includes(term)
-      );
-    }
-
-    return [...result].sort((a, b) => {
-      const av = a[field];
-      const bv = b[field];
-      const aCompare = typeof av === 'string' ? av.toLowerCase() : av;
-      const bCompare = typeof bv === 'string' ? bv.toLowerCase() : bv;
-
-      if (aCompare < bCompare) return -1 * dir;
-      if (aCompare > bCompare) return 1 * dir;
-      return 0;
-    });
-  });
+  pageNumbers = computed(() =>
+    Array.from({ length: this.userService.totalPages() }, (_, i) => i + 1)
+  );
 
   ngOnInit(): void {
-    this.loadEmployees();
+    this.fetch();
+    this.searchInput$.pipe(debounceTime(300)).subscribe((term) => {
+      this.searchTerm.set(term);
+      this.currentPage.set(1);
+      this.fetch();
+    });
   }
 
-  loadEmployees(): void {
-    this.isLoading.set(true);
-    this.userService.getAllUsers().subscribe({
-      next: users => {
-        this.allUsers.set(users);
-        this.isLoading.set(false);
-      },
-      error: () => this.isLoading.set(false)
+  private fetch(): void {
+    this.userService.loadUsers({
+      page: this.currentPage(),
+      pageSize: this.pageSize,
+      role: 'employee',
+      search: this.searchTerm() || undefined,
+      sort: this.sortField(),
+      order: this.sortDirection(),
     });
   }
 
   onSearchChange(term: string): void {
-    this.searchTerm.set(term);
+    this.searchInput$.next(term);
   }
 
   toggleSort(field: keyof User): void {
@@ -75,6 +60,14 @@ export class EmployeeListComponent implements OnInit{
       this.sortField.set(field);
       this.sortDirection.set('asc');
     }
+    this.currentPage.set(1);
+    this.fetch();
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.userService.totalPages()) return;
+    this.currentPage.set(page);
+    this.fetch();
   }
 
   toggleStatus(user: User): void {
@@ -86,9 +79,9 @@ export class EmployeeListComponent implements OnInit{
     this.userService.updateUserStatus(user.id, newStatus).subscribe({
       next: () => {
         this.notification.success(`${user.fullName} ${action}d`);
-        this.loadEmployees(); 
+        this.fetch();
       },
-      error: () => this.notification.error('Could not update status')
+      error: () => this.notification.error('Could not update status'),
     });
   }
 }
