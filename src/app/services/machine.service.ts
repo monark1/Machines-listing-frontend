@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, map} from 'rxjs';
 import { Machine, MachineDraft, PaginatedResponse } from '../models/machine.model';
 import { API_BASE_URL } from '../config/api.config';
 
@@ -35,6 +35,13 @@ export class MachineService {
 
   updateMachine(id: number, machine: MachineDraft): Observable<Machine> {
     return this.http.put<Machine>(`${this.API_URL}/${id}`, machine);
+  }
+
+  getAllMachines(): Observable<Machine[]> {
+    const params = new HttpParams().set('page', 1).set('pageSize', 100);
+    return this.http
+      .get<PaginatedResponse<Machine>>(this.API_URL, { params })
+      .pipe(map((res) => res.items));
   }
 
   loadMachines(params: MachineListParams = {}): void {

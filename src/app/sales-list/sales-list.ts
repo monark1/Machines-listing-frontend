@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SalesService } from '../services/sales.service';
-import { MachineService } from '../services/machine.service';
 import { jsPDF } from 'jspdf';
 import { autoTable } from 'jspdf-autotable';
 import { SalesRecord } from '../models/sales-record.model';
@@ -17,7 +16,6 @@ import { Subject, debounceTime } from 'rxjs';
 })
 export class SalesListComponent implements OnInit {
   salesService = inject(SalesService);
-  private machineService = inject(MachineService);
 
   searchTerm = signal('');
   sortField = signal<'machineName' | 'region' | 'revenue' | 'saleDate' | 'dealerName'>('saleDate');
@@ -32,7 +30,6 @@ export class SalesListComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.machineService.loadMachines({ pageSize: 100 }); 
     this.fetch();
     this.searchInput$.pipe(debounceTime(300)).subscribe((term) => {
       this.searchTerm.set(term);
@@ -49,10 +46,6 @@ export class SalesListComponent implements OnInit {
       sort: this.sortField(),
       order: this.sortDirection(),
     });
-  }
-
-  getMachineName(machineId: number): string {
-    return this.machineService.machines().find((m) => m.id === machineId)?.name ?? 'Unknown';
   }
 
   onSearchChange(term: string): void {
@@ -79,7 +72,7 @@ export class SalesListComponent implements OnInit {
     const doc = new jsPDF();
     doc.text('Sales Report', 14, 15);
     const columns: { label: string; getValue: (m: SalesRecord) => string | number }[] = [
-      { label: 'Machine', getValue: (m) => this.getMachineName(m.machineId) },
+      { label: 'Machine', getValue: (m) => m.machineName },
       { label: 'Region', getValue: (m) => m.region },
       { label: 'Qty Sold', getValue: (m) => m.quantitySold },
       { label: 'Revenue', getValue: (s) => s.revenue },
@@ -98,7 +91,7 @@ export class SalesListComponent implements OnInit {
     const rows = this.salesService.sales();
     const header = ['Machine', 'Region', 'Qty Sold', 'Revenue', 'Sale Date', 'Dealer'];
     const csvRows = rows.map((s) =>
-      [this.getMachineName(s.machineId), s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName].join(',')
+      [ s.machineName, s.region, s.quantitySold, s.revenue, s.saleDate, s.dealerName].join(',')
     );
     const csvContent = [header.join(','), ...csvRows].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });

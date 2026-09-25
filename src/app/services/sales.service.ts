@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { SalesRecord } from '../models/sales-record.model';
 import { PaginatedResponse } from '../models/machine.model';
 import { API_BASE_URL } from '../config/api.config';
+import { Observable, map} from 'rxjs';
 
 export interface SalesListParams {
   page?: number;
@@ -48,4 +49,11 @@ export class SalesService {
       error: () => this.isLoading.set(false),
     });
   }
+
+  getAllSales(): Observable<SalesRecord[]> {
+  const params = new HttpParams().set('page', 1).set('pageSize', 100);
+  return this.http
+    .get<PaginatedResponse<SalesRecord>>(this.API_URL, { params })
+    .pipe(map((res) => res.items));
+}
 }
