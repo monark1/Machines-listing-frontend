@@ -59,6 +59,7 @@ export class SalesListComponent implements OnInit {
       this.sortField.set(field);
       this.sortDirection.set('asc');
     }
+    this.currentPage.set(1);
     this.fetch();
   }
 
