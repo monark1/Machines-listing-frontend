@@ -9,10 +9,10 @@
     (input)="onSearchChange(searchBox.value)"
   />
 
-  @if (userService.isLoading()) {
+  @if (userService.isLoading()  && userService.users().length === 0) {
     <p class="loading-text">Loading employees...</p>
   } @else {
-    <table class="data-table">
+    <table class="data-table" [class.is-loading]="userService.isLoading()">
       <thead>
         <tr>
           <th class="sortable-header" (click)="toggleSort('fullName')">

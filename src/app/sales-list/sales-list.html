@@ -11,11 +11,11 @@
   <input #searchBox type="text" class="search-input" placeholder="Search by machine, region, dealer, date, quantity, or revenue..." [value]="searchTerm()"
     (input)="onSearchChange(searchBox.value)" />
 
-  @if (salesService.isLoading()) {
+  @if (salesService.isLoading() && salesService.sales().length === 0) {
   <p class="loading-text">Loading sales...</p>
   } @else {
 
-  <table class="data-table">
+  <table class="data-table"  [class.is-loading]="salesService.isLoading()">
     <thead>
       <tr>
         <th class="sortable-header" (click)="toggleSort('machineName')">

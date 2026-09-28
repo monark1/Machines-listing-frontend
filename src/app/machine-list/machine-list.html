@@ -14,11 +14,11 @@
   <input #searchBox type="text" class="search-input" placeholder="Search by name, category, status, year, or price..." [value]="searchTerm()"
     (input)="onSearchChange(searchBox.value)" />
 
-  @if (machineService.isLoading()) {
+  @if (machineService.isLoading()  && machineService.machines().length === 0) {
   <p class="loading-text">Loading machines...</p>
   } @else {
 
-  <table class="data-table">
+  <table class="data-table"  [class.is-loading]="machineService.isLoading()">
     <thead>
       <tr>
         <th class="sortable-header" (click)="toggleSort('name')">

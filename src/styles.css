@@ -93,6 +93,9 @@ body {
   border-bottom: none;
 }
 
+.data-table { transition: opacity 0.15s; }
+.data-table.is-loading { opacity: 0.55; pointer-events: none; }
+
 .sortable-header {
   cursor: pointer;
   user-select: none;
